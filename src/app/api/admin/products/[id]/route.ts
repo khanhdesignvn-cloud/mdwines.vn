@@ -56,6 +56,7 @@ export async function PUT(
       featured: data.featured,
       isNew: data.isNew,
       status: data.status,
+      images: JSON.stringify(data.images),
     },
   });
 

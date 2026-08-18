@@ -60,12 +60,18 @@ export default async function OrderSuccessPage({
         </div>
       </div>
 
-      <div className="mt-8 text-center">
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
         <Link
           href="/san-pham"
           className="inline-block rounded-full bg-wine-800 px-7 py-3 text-sm font-semibold text-cream-50 hover:bg-wine-700"
         >
           Tiếp tục mua sắm
+        </Link>
+        <Link
+          href="/tra-cuu-don-hang"
+          className="inline-block rounded-full border border-wine-800 px-7 py-3 text-sm font-semibold text-wine-800 hover:bg-wine-800 hover:text-cream-50"
+        >
+          Tra cứu đơn hàng sau
         </Link>
       </div>
     </div>

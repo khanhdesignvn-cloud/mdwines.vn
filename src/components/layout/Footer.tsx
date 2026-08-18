@@ -43,6 +43,7 @@ export function Footer() {
             <li><Link href="/gioi-thieu" className="hover:text-gold-200">Giới thiệu</Link></li>
             <li><Link href="/tin-tuc" className="hover:text-gold-200">Tin tức &amp; Kiến thức</Link></li>
             <li><Link href="/su-kien" className="hover:text-gold-200">Sự kiện thưởng rượu</Link></li>
+            <li><Link href="/tra-cuu-don-hang" className="hover:text-gold-200">Tra cứu đơn hàng</Link></li>
             <li><Link href="/lien-he" className="hover:text-gold-200">Liên hệ</Link></li>
             <li><Link href="/admin/login" className="hover:text-gold-200">Đăng nhập quản trị</Link></li>
           </ul>

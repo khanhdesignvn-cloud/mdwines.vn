@@ -7,9 +7,17 @@ const links = [
   { href: "/admin", label: "Tổng quan", icon: "📊", exact: true },
   { href: "/admin/san-pham", label: "Sản phẩm", icon: "🍷" },
   { href: "/admin/don-hang", label: "Đơn hàng", icon: "📦" },
+  { href: "/admin/danh-muc", label: "Danh mục", icon: "🏷️" },
+  { href: "/admin/lien-he", label: "Liên hệ", icon: "✉️" },
 ];
 
-export function AdminNav({ adminName }: { adminName: string }) {
+export function AdminNav({
+  adminName,
+  pendingContactCount = 0,
+}: {
+  adminName: string;
+  pendingContactCount?: number;
+}) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -43,6 +51,11 @@ export function AdminNav({ adminName }: { adminName: string }) {
             >
               <span>{link.icon}</span>
               {link.label}
+              {link.href === "/admin/lien-he" && pendingContactCount > 0 && (
+                <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-wine-600 px-1 text-[11px] font-semibold text-cream-50">
+                  {pendingContactCount}
+                </span>
+              )}
             </Link>
           );
         })}

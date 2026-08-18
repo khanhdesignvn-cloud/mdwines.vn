@@ -45,6 +45,7 @@ export async function POST(request: Request) {
       featured: data.featured,
       isNew: data.isNew,
       status: data.status,
+      images: JSON.stringify(data.images),
     },
   });
 

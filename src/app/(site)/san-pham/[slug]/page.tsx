@@ -2,10 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getProductBySlug, getRelatedProducts } from "@/lib/data";
-import { WineBottleArt } from "@/components/product/WineBottleArt";
+import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductCard } from "@/components/product/ProductCard";
 import { AddToCartPanel } from "@/components/product/AddToCartPanel";
 import { formatVND } from "@/lib/format";
+import { parseProductImages } from "@/lib/product-image";
 
 export async function generateMetadata({
   params,
@@ -48,9 +49,11 @@ export default async function ProductDetailPage({ params }: PageProps<"/san-pham
       </nav>
 
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-        <div className="flex items-center justify-center rounded-3xl bg-gradient-to-b from-cream-200 to-cream-100 py-16">
-          <WineBottleArt category={product.category.slug} className="h-[26rem] w-auto drop-shadow-2xl" />
-        </div>
+        <ProductGallery
+          images={parseProductImages(product.images)}
+          category={product.category.slug}
+          name={product.name}
+        />
 
         <div>
           {product.isNew && (

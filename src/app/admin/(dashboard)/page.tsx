@@ -2,24 +2,9 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { formatVND, formatDateTime } from "@/lib/format";
+import { ORDER_STATUS_LABEL as STATUS_LABEL, ORDER_STATUS_COLOR as STATUS_COLOR } from "@/lib/order-status";
 
 export const metadata: Metadata = { title: "Tổng quan quản trị" };
-
-const STATUS_LABEL: Record<string, string> = {
-  pending: "Chờ xác nhận",
-  confirmed: "Đã xác nhận",
-  shipping: "Đang giao",
-  completed: "Hoàn tất",
-  cancelled: "Đã hủy",
-};
-
-const STATUS_COLOR: Record<string, string> = {
-  pending: "bg-amber-100 text-amber-700",
-  confirmed: "bg-blue-100 text-blue-700",
-  shipping: "bg-purple-100 text-purple-700",
-  completed: "bg-emerald-100 text-emerald-700",
-  cancelled: "bg-red-100 text-red-700",
-};
 
 export default async function AdminDashboardPage() {
   const [orderCount, revenueAgg, productCount, lowStock, recentOrders, statusCounts, topItems] =

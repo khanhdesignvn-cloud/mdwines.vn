@@ -2,14 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ORDER_STATUS_LABEL } from "@/lib/order-status";
 
-const STATUS_OPTIONS = [
-  { value: "pending", label: "Chờ xác nhận" },
-  { value: "confirmed", label: "Đã xác nhận" },
-  { value: "shipping", label: "Đang giao" },
-  { value: "completed", label: "Hoàn tất" },
-  { value: "cancelled", label: "Đã hủy" },
-];
+const STATUS_OPTIONS = Object.entries(ORDER_STATUS_LABEL).map(([value, label]) => ({ value, label }));
 
 export function OrderStatusSelect({ orderId, status }: { orderId: string; status: string }) {
   const router = useRouter();

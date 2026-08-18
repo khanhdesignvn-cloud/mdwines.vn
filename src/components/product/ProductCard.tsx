@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import type { Category, Country, Product } from "@prisma/client";
 import { WineBottleArt } from "./WineBottleArt";
 import { formatVND } from "@/lib/format";
 import { useCart } from "@/lib/cart-context";
+import { parseProductImages } from "@/lib/product-image";
 
 export type ProductWithRelations = Product & { category: Category; country: Country };
 
@@ -12,6 +14,7 @@ export function ProductCard({ product }: { product: ProductWithRelations }) {
   const { addItem } = useCart();
   const outOfStock = product.stock <= 0;
   const effectivePrice = product.salePrice ?? product.price;
+  const [coverImage] = parseProductImages(product.images);
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-ink-900/10 bg-cream-50 shadow-sm transition-shadow hover:shadow-xl hover:shadow-wine-900/10">
@@ -29,10 +32,20 @@ export function ProductCard({ product }: { product: ProductWithRelations }) {
             -{Math.round(100 - (product.salePrice / product.price) * 100)}%
           </span>
         )}
-        <WineBottleArt
-          category={product.category.slug}
-          className="h-56 w-auto drop-shadow-xl transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-105"
-        />
+        {coverImage ? (
+          <Image
+            src={coverImage}
+            alt={product.name}
+            fill
+            sizes="(min-width: 1280px) 22vw, (min-width: 640px) 45vw, 90vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <WineBottleArt
+            category={product.category.slug}
+            className="h-56 w-auto drop-shadow-xl transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-105"
+          />
+        )}
       </Link>
 
       <div className="flex flex-1 flex-col gap-2 p-4">

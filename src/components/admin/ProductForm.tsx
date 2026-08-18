@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import type { Category, Country, Product } from "@prisma/client";
+import { parseProductImages } from "@/lib/product-image";
 
 type Props = {
   categories: Category[];
@@ -15,7 +17,30 @@ export function ProductForm({ categories, countries, product }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [images, setImages] = useState<string[]>(() => parseProductImages(product?.images));
+  const [uploading, setUploading] = useState(false);
   const isEdit = Boolean(product);
+
+  async function handleFileSelect(files: FileList | null) {
+    if (!files || files.length === 0) return;
+    setError(null);
+    setUploading(true);
+    try {
+      for (const file of Array.from(files).slice(0, 6 - images.length)) {
+        const formData = new FormData();
+        formData.append("file", file);
+        const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+        const json = await res.json();
+        if (!res.ok) {
+          setError(json.error ?? "Không thể tải ảnh lên");
+          continue;
+        }
+        setImages((prev) => [...prev, json.url]);
+      }
+    } finally {
+      setUploading(false);
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -50,6 +75,7 @@ export function ProductForm({ categories, countries, product }: Props) {
       featured: form.get("featured") === "on",
       isNew: form.get("isNew") === "on",
       status: form.get("status") === "hidden" ? "hidden" : "active",
+      images,
     };
 
     try {
@@ -155,6 +181,50 @@ export function ProductForm({ categories, countries, product }: Props) {
       </div>
 
       <div className="rounded-2xl border border-ink-900/10 bg-cream-50 p-6">
+        <h2 className="font-serif text-lg text-ink-900">Hình ảnh sản phẩm</h2>
+        <p className="mt-1 text-xs text-ink-700/60">
+          Tối đa 6 ảnh (JPG, PNG, WEBP, AVIF — dưới 5MB). Ảnh đầu tiên là ảnh đại diện. Nếu
+          không có ảnh, hệ thống sẽ hiển thị minh họa mặc định theo loại rượu.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          {images.map((src, i) => (
+            <div key={src} className="relative h-24 w-24 overflow-hidden rounded-lg border border-ink-900/10">
+              <Image src={src} alt="" fill sizes="96px" className="object-cover" />
+              {i === 0 && (
+                <span className="absolute left-1 top-1 rounded bg-ink-900/70 px-1.5 py-0.5 text-[10px] text-cream-50">
+                  Đại diện
+                </span>
+              )}
+              <button
+                type="button"
+                onClick={() => setImages((prev) => prev.filter((_, idx) => idx !== i))}
+                className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-xs text-white"
+                aria-label="Xóa ảnh"
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+          {images.length < 6 && (
+            <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-ink-900/20 text-xs text-ink-700/60 hover:border-wine-700 hover:text-wine-700">
+              {uploading ? "Đang tải..." : "+ Thêm ảnh"}
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/avif"
+                multiple
+                className="hidden"
+                disabled={uploading}
+                onChange={(e) => {
+                  handleFileSelect(e.target.files);
+                  e.target.value = "";
+                }}
+              />
+            </label>
+          )}
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-ink-900/10 bg-cream-50 p-6">
         <h2 className="font-serif text-lg text-ink-900">Giá &amp; Tồn kho</h2>
         <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div>
@@ -231,7 +301,7 @@ export function ProductForm({ categories, countries, product }: Props) {
         <div className="flex gap-3">
           <button
             type="submit"
-            disabled={submitting}
+            disabled={submitting || uploading}
             className="rounded-full bg-wine-800 px-6 py-2.5 text-sm font-semibold text-cream-50 hover:bg-wine-700 disabled:opacity-60"
           >
             {submitting ? "Đang lưu..." : isEdit ? "Lưu thay đổi" : "Tạo sản phẩm"}

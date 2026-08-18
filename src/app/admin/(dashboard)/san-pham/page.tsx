@@ -1,7 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { formatVND } from "@/lib/format";
+import { parseProductImages } from "@/lib/product-image";
 
 export const metadata: Metadata = { title: "Quản lý sản phẩm" };
 
@@ -48,6 +50,7 @@ export default async function AdminProductListPage({
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-ink-900/10 bg-cream-200/60 text-left text-xs uppercase tracking-wide text-ink-700/60">
+              <th className="px-4 py-3 font-medium"></th>
               <th className="px-4 py-3 font-medium">Sản phẩm</th>
               <th className="px-4 py-3 font-medium">SKU</th>
               <th className="px-4 py-3 font-medium">Loại</th>
@@ -59,8 +62,15 @@ export default async function AdminProductListPage({
             </tr>
           </thead>
           <tbody>
-            {products.map((p) => (
+            {products.map((p) => {
+              const [thumb] = parseProductImages(p.images);
+              return (
               <tr key={p.id} className="border-b border-ink-900/5 hover:bg-cream-100">
+                <td className="px-4 py-3">
+                  <div className="relative h-12 w-12 overflow-hidden rounded-lg bg-cream-200">
+                    {thumb && <Image src={thumb} alt="" fill sizes="48px" className="object-cover" />}
+                  </div>
+                </td>
                 <td className="px-4 py-3">
                   <Link href={`/admin/san-pham/${p.id}`} className="font-medium text-ink-900 hover:text-wine-700">
                     {p.name}
@@ -102,10 +112,11 @@ export default async function AdminProductListPage({
                   </Link>
                 </td>
               </tr>
-            ))}
+              );
+            })}
             {products.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-4 py-8 text-center text-ink-700/50">
+                <td colSpan={9} className="px-4 py-8 text-center text-ink-700/50">
                   Không tìm thấy sản phẩm nào.
                 </td>
               </tr>

@@ -27,6 +27,7 @@ export const productSchema = z.object({
   featured: z.boolean().default(false),
   isNew: z.boolean().default(false),
   status: z.enum(["active", "hidden"]).default("active"),
+  images: z.array(z.string().trim().min(1)).max(6).default([]),
 });
 
 export type ProductFormValues = z.infer<typeof productSchema>;

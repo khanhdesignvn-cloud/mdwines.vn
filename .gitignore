@@ -51,3 +51,7 @@ next-env.d.ts
 /prisma/dev.db
 /prisma/*.db
 /prisma/*.db-journal
+
+# user-uploaded product photos (served from disk at runtime, not committed)
+/uploads/products/*
+!/uploads/products/.gitkeep
