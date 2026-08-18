@@ -1,0 +1,113 @@
+// Prisma schema for the wine e-commerce & management platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  description String?
+  sortOrder   Int       @default(0)
+  products    Product[]
+}
+
+model Country {
+  id       String    @id @default(cuid())
+  slug     String    @unique
+  name     String
+  flag     String? // emoji flag for quick display
+  products Product[]
+}
+
+model Product {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  sku              String   @unique
+  name             String
+  categoryId       String
+  category         Category @relation(fields: [categoryId], references: [id])
+  countryId        String
+  country          Country  @relation(fields: [countryId], references: [id])
+  region           String?
+  vintage          Int?
+  grapeVariety     String?
+  alcoholPercent   Float?
+  volumeMl         Int      @default(750)
+  price            Int
+  salePrice        Int?
+  stock            Int      @default(0)
+  shortDescription String?
+  description      String?
+  tastingNotes     String?
+  foodPairing      String?
+  awards           String?
+  images           String   @default("[]") // JSON-encoded array of image refs
+  rating           Float    @default(4.5)
+  featured         Boolean  @default(false)
+  isNew            Boolean  @default(false)
+  status           String   @default("active") // active | hidden
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  orderItems OrderItem[]
+
+  @@index([categoryId])
+  @@index([countryId])
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  orderCode       String      @unique
+  customerName    String
+  customerPhone   String
+  customerEmail   String?
+  customerAddress String
+  note            String?
+  paymentMethod   String      @default("cod") // cod | bank_transfer
+  status          String      @default("pending") // pending | confirmed | shipping | completed | cancelled
+  subtotal        Int
+  shippingFee     Int         @default(0)
+  total           Int
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id           String  @id @default(cuid())
+  orderId      String
+  order        Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId    String?
+  product      Product? @relation(fields: [productId], references: [id])
+  productName  String
+  productImage String?
+  price        Int
+  quantity     Int
+  total        Int
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+}
+
+model NewsPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  excerpt     String?
+  content     String
+  coverTone   String   @default("burgundy") // used to render a generated cover
+  author      String   @default("MDWines")
+  publishedAt DateTime @default(now())
+}
