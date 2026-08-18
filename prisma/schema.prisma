@@ -57,27 +57,75 @@ model Product {
   updatedAt        DateTime @updatedAt
 
   orderItems OrderItem[]
+  reviews    Review[]
 
   @@index([categoryId])
   @@index([countryId])
 }
 
+model Customer {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  phone        String?
+  address      String?
+  createdAt    DateTime @default(now())
+
+  orders  Order[]
+  reviews Review[]
+}
+
 model Order {
   id              String      @id @default(cuid())
   orderCode       String      @unique
+  customerId      String?
+  customer        Customer?   @relation(fields: [customerId], references: [id])
   customerName    String
   customerPhone   String
   customerEmail   String?
   customerAddress String
   note            String?
-  paymentMethod   String      @default("cod") // cod | bank_transfer
+  paymentMethod   String      @default("cod") // cod | bank_transfer | vnpay
+  paymentStatus   String      @default("unpaid") // unpaid | paid | failed
   status          String      @default("pending") // pending | confirmed | shipping | completed | cancelled
+  couponCode      String?
+  discountAmount  Int         @default(0)
   subtotal        Int
   shippingFee     Int         @default(0)
   total           Int
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
   items           OrderItem[]
+
+  @@index([customerId])
+}
+
+model Coupon {
+  id             String    @id @default(cuid())
+  code           String    @unique
+  type           String // percent | fixed
+  value          Int // percent: 1-100, fixed: VND amount
+  minOrderAmount Int       @default(0)
+  maxUses        Int?
+  usedCount      Int       @default(0)
+  active         Boolean   @default(true)
+  expiresAt      DateTime?
+  createdAt      DateTime  @default(now())
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  rating     Int
+  comment    String?
+  createdAt  DateTime @default(now())
+
+  @@unique([productId, customerId])
+  @@index([productId])
 }
 
 model OrderItem {

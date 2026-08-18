@@ -8,6 +8,8 @@ const links = [
   { href: "/admin/san-pham", label: "Sản phẩm", icon: "🍷" },
   { href: "/admin/don-hang", label: "Đơn hàng", icon: "📦" },
   { href: "/admin/danh-muc", label: "Danh mục", icon: "🏷️" },
+  { href: "/admin/khuyen-mai", label: "Khuyến mãi", icon: "🎟️" },
+  { href: "/admin/danh-gia", label: "Đánh giá", icon: "⭐" },
   { href: "/admin/lien-he", label: "Liên hệ", icon: "✉️" },
 ];
 

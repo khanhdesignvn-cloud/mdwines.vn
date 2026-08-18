@@ -31,3 +31,25 @@ export const productSchema = z.object({
 });
 
 export type ProductFormValues = z.infer<typeof productSchema>;
+
+export const couponSchema = z
+  .object({
+    code: z
+      .string()
+      .trim()
+      .min(3, "Mã quá ngắn")
+      .max(30)
+      .regex(/^[A-Za-z0-9-]+$/, "Mã chỉ gồm chữ, số và dấu gạch ngang"),
+    type: z.enum(["percent", "fixed"]),
+    value: z.number().int().min(1, "Giá trị không hợp lệ"),
+    minOrderAmount: z.number().int().min(0).default(0),
+    maxUses: z.number().int().min(1).nullable().optional(),
+    active: z.boolean().default(true),
+    expiresAt: z.string().trim().optional().or(z.literal("")),
+  })
+  .refine((data) => data.type !== "percent" || data.value <= 100, {
+    message: "Giảm theo % tối đa 100",
+    path: ["value"],
+  });
+
+export type CouponFormValues = z.infer<typeof couponSchema>;

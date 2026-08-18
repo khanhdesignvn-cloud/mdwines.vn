@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { formatVND, formatDateTime } from "@/lib/format";
 import { OrderStatusSelect } from "@/components/admin/OrderStatusSelect";
+import { PaymentStatusToggle } from "@/components/admin/PaymentStatusToggle";
+import { PAYMENT_METHOD_LABEL, PAYMENT_STATUS_LABEL, PAYMENT_STATUS_COLOR } from "@/lib/order-status";
 
 export const metadata: Metadata = { title: "Chi tiết đơn hàng" };
 
@@ -50,6 +52,12 @@ export default async function AdminOrderDetailPage({
               <span>Tạm tính</span>
               <span>{formatVND(order.subtotal)}</span>
             </div>
+            {order.discountAmount > 0 && (
+              <div className="flex justify-between text-emerald-700">
+                <span>Giảm giá {order.couponCode ? `(${order.couponCode})` : ""}</span>
+                <span>-{formatVND(order.discountAmount)}</span>
+              </div>
+            )}
             <div className="flex justify-between">
               <span>Phí vận chuyển</span>
               <span>{order.shippingFee === 0 ? "Miễn phí" : formatVND(order.shippingFee)}</span>
@@ -84,9 +92,18 @@ export default async function AdminOrderDetailPage({
                 <dd className="font-medium text-ink-900">{order.customerAddress}</dd>
               </div>
               <div>
-                <dt className="text-ink-700/60">Thanh toán</dt>
-                <dd className="font-medium text-ink-900">
-                  {order.paymentMethod === "cod" ? "Thanh toán khi nhận hàng" : "Chuyển khoản ngân hàng"}
+                <dt className="text-ink-700/60">Phương thức thanh toán</dt>
+                <dd className="font-medium text-ink-900">{PAYMENT_METHOD_LABEL[order.paymentMethod]}</dd>
+              </div>
+              <div>
+                <dt className="text-ink-700/60">Trạng thái thanh toán</dt>
+                <dd className="mt-1 flex items-center gap-2">
+                  <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${PAYMENT_STATUS_COLOR[order.paymentStatus]}`}>
+                    {PAYMENT_STATUS_LABEL[order.paymentStatus]}
+                  </span>
+                  {order.paymentMethod !== "vnpay" && (
+                    <PaymentStatusToggle orderId={order.id} paymentStatus={order.paymentStatus} />
+                  )}
                 </dd>
               </div>
               {order.note && (

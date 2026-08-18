@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 
-const updateSchema = z.object({
-  status: z.enum(["pending", "confirmed", "shipping", "completed", "cancelled"]),
-});
+const updateSchema = z.union([
+  z.object({ status: z.enum(["pending", "confirmed", "shipping", "completed", "cancelled"]) }),
+  z.object({ paymentStatus: z.enum(["unpaid", "paid", "failed"]) }),
+]);
 
 export async function PATCH(
   request: Request,
@@ -15,12 +16,17 @@ export async function PATCH(
   const parsed = updateSchema.safeParse(body);
 
   if (!parsed.success) {
-    return NextResponse.json({ error: "Trạng thái không hợp lệ" }, { status: 400 });
+    return NextResponse.json({ error: "Dữ liệu không hợp lệ" }, { status: 400 });
   }
 
   const order = await prisma.order.findUnique({ where: { id }, include: { items: true } });
   if (!order) {
     return NextResponse.json({ error: "Không tìm thấy đơn hàng" }, { status: 404 });
+  }
+
+  if ("paymentStatus" in parsed.data) {
+    await prisma.order.update({ where: { id }, data: { paymentStatus: parsed.data.paymentStatus } });
+    return NextResponse.json({ ok: true });
   }
 
   const nextStatus = parsed.data.status;

@@ -6,7 +6,13 @@ import { useCart } from "@/lib/cart-context";
 
 type NavCategory = { slug: string; name: string };
 
-export function Header({ categories }: { categories: NavCategory[] }) {
+export function Header({
+  categories,
+  customerName,
+}: {
+  categories: NavCategory[];
+  customerName: string | null;
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const { itemCount, isHydrated } = useCart();
 
@@ -62,6 +68,13 @@ export function Header({ categories }: { categories: NavCategory[] }) {
 
         <div className="flex items-center gap-4">
           <Link
+            href={customerName ? "/tai-khoan" : "/dang-nhap"}
+            className="hidden items-center gap-2 text-sm hover:text-gold-300 sm:flex"
+          >
+            <AccountIcon />
+            {customerName ? customerName.split(" ").pop() : "Đăng nhập"}
+          </Link>
+          <Link
             href="/gio-hang"
             className="relative flex items-center gap-2 rounded-full border border-gold-400/60 px-4 py-2 text-sm hover:bg-gold-400/10 transition-colors"
           >
@@ -111,10 +124,26 @@ export function Header({ categories }: { categories: NavCategory[] }) {
             <Link href="/lien-he" className="py-2" onClick={() => setMenuOpen(false)}>
               Liên hệ
             </Link>
+            <Link
+              href={customerName ? "/tai-khoan" : "/dang-nhap"}
+              className="py-2"
+              onClick={() => setMenuOpen(false)}
+            >
+              {customerName ? `Tài khoản (${customerName})` : "Đăng nhập / Đăng ký"}
+            </Link>
           </div>
         </nav>
       )}
     </header>
+  );
+}
+
+function AccountIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <circle cx="12" cy="8" r="3.5" />
+      <path d="M4.5 20c1.5-4 5-6 7.5-6s6 2 7.5 6" strokeLinecap="round" />
+    </svg>
   );
 }
 

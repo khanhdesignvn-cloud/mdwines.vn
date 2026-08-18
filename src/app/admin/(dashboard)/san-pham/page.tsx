@@ -28,12 +28,20 @@ export default async function AdminProductListPage({
           <h1 className="font-serif text-2xl text-ink-900">Quản lý sản phẩm</h1>
           <p className="mt-1 text-sm text-ink-700/60">{products.length} sản phẩm</p>
         </div>
-        <Link
-          href="/admin/san-pham/moi"
-          className="rounded-full bg-wine-800 px-5 py-2.5 text-sm font-semibold text-cream-50 hover:bg-wine-700"
-        >
-          + Thêm sản phẩm
-        </Link>
+        <div className="flex gap-3">
+          <a
+            href="/api/admin/export/products"
+            className="rounded-full border border-ink-900/15 px-5 py-2.5 text-sm font-semibold text-ink-800 hover:bg-cream-200"
+          >
+            Xuất Excel
+          </a>
+          <Link
+            href="/admin/san-pham/moi"
+            className="rounded-full bg-wine-800 px-5 py-2.5 text-sm font-semibold text-cream-50 hover:bg-wine-700"
+          >
+            + Thêm sản phẩm
+          </Link>
+        </div>
       </div>
 
       <form action="/admin/san-pham" className="mb-6">

@@ -5,8 +5,11 @@ import { getProductBySlug, getRelatedProducts } from "@/lib/data";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductCard } from "@/components/product/ProductCard";
 import { AddToCartPanel } from "@/components/product/AddToCartPanel";
+import { ProductReviews } from "@/components/product/ProductReviews";
 import { formatVND } from "@/lib/format";
 import { parseProductImages } from "@/lib/product-image";
+import { prisma } from "@/lib/prisma";
+import { getCurrentCustomer } from "@/lib/customer-auth";
 
 export async function generateMetadata({
   params,
@@ -25,8 +28,17 @@ export default async function ProductDetailPage({ params }: PageProps<"/san-pham
   const product = await getProductBySlug(slug);
   if (!product) notFound();
 
-  const related = await getRelatedProducts(product.categoryId, product.id);
+  const [related, reviews, customer] = await Promise.all([
+    getRelatedProducts(product.categoryId, product.id),
+    prisma.review.findMany({
+      where: { productId: product.id },
+      orderBy: { createdAt: "desc" },
+      include: { customer: { select: { name: true } } },
+    }),
+    getCurrentCustomer(),
+  ]);
   const effectivePrice = product.salePrice ?? product.price;
+  const myReview = customer ? reviews.find((r) => r.customerId === customer.id) ?? null : null;
 
   const specs: [string, string][] = [
     ["Xuất xứ", `${product.country.flag} ${product.country.name}`],
@@ -134,6 +146,16 @@ export default async function ProductDetailPage({ params }: PageProps<"/san-pham
           <p className="mt-3 leading-relaxed text-ink-800/85">{product.description}</p>
         </div>
       )}
+
+      <div className="mt-8">
+        <ProductReviews
+          productId={product.id}
+          productSlug={product.slug}
+          reviews={reviews}
+          isLoggedIn={Boolean(customer)}
+          myReview={myReview}
+        />
+      </div>
 
       {related.length > 0 && (
         <div className="mt-16">

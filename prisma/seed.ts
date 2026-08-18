@@ -611,12 +611,16 @@ const newsPosts = [
 async function main() {
   console.log("Seeding database...");
 
+  await prisma.review.deleteMany();
   await prisma.orderItem.deleteMany();
   await prisma.order.deleteMany();
+  await prisma.coupon.deleteMany();
+  await prisma.customer.deleteMany();
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
   await prisma.country.deleteMany();
   await prisma.newsPost.deleteMany();
+  await prisma.contactMessage.deleteMany();
   await prisma.adminUser.deleteMany();
 
   const categoryMap = new Map<string, string>();

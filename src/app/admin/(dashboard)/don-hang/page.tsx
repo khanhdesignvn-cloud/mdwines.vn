@@ -3,7 +3,11 @@ import type { Metadata } from "next";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { formatVND, formatDateTime } from "@/lib/format";
-import { ORDER_STATUS_LABEL as STATUS_LABEL, ORDER_STATUS_COLOR as STATUS_COLOR } from "@/lib/order-status";
+import {
+  ORDER_STATUS_LABEL as STATUS_LABEL,
+  ORDER_STATUS_COLOR as STATUS_COLOR,
+  PAYMENT_METHOD_LABEL,
+} from "@/lib/order-status";
 
 export const metadata: Metadata = { title: "Quản lý đơn hàng" };
 
@@ -38,8 +42,18 @@ export default async function AdminOrderListPage({
 
   return (
     <div>
-      <h1 className="font-serif text-2xl text-ink-900">Quản lý đơn hàng</h1>
-      <p className="mt-1 text-sm text-ink-700/60">{orders.length} đơn hàng</p>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 className="font-serif text-2xl text-ink-900">Quản lý đơn hàng</h1>
+          <p className="mt-1 text-sm text-ink-700/60">{orders.length} đơn hàng</p>
+        </div>
+        <a
+          href="/api/admin/export/orders"
+          className="rounded-full border border-ink-900/15 px-5 py-2.5 text-sm font-semibold text-ink-800 hover:bg-cream-200"
+        >
+          Xuất Excel
+        </a>
+      </div>
 
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <form action="/admin/don-hang">
@@ -94,7 +108,7 @@ export default async function AdminOrderListPage({
                 </td>
                 <td className="px-4 py-3 text-ink-700/70">{formatDateTime(o.createdAt)}</td>
                 <td className="px-4 py-3 text-ink-700/70">
-                  {o.paymentMethod === "cod" ? "COD" : "Chuyển khoản"}
+                  {PAYMENT_METHOD_LABEL[o.paymentMethod]}
                 </td>
                 <td className="px-4 py-3 text-right font-medium">{formatVND(o.total)}</td>
                 <td className="px-4 py-3">

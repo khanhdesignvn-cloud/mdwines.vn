@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { formatVND, formatDateTime } from "@/lib/format";
-import { ORDER_STATUS_LABEL, ORDER_STATUS_COLOR } from "@/lib/order-status";
+import { ORDER_STATUS_LABEL, ORDER_STATUS_COLOR, PAYMENT_METHOD_LABEL } from "@/lib/order-status";
 
 type LookupOrder = {
   orderCode: string;
@@ -13,6 +13,8 @@ type LookupOrder = {
   status: string;
   subtotal: number;
   shippingFee: number;
+  discountAmount: number;
+  couponCode: string | null;
   total: number;
   createdAt: string;
   items: { id: string; productName: string; price: number; quantity: number; total: number }[];
@@ -112,7 +114,23 @@ export default function OrderLookupPage() {
               </div>
             ))}
           </div>
-          <div className="mt-4 flex justify-between border-t border-ink-900/10 pt-4 font-serif text-lg text-wine-800">
+          <div className="mt-3 space-y-1 border-t border-ink-900/10 pt-3 text-sm text-ink-700/70">
+            <div className="flex justify-between">
+              <span>Tạm tính</span>
+              <span>{formatVND(order.subtotal)}</span>
+            </div>
+            {order.discountAmount > 0 && (
+              <div className="flex justify-between text-emerald-700">
+                <span>Giảm giá {order.couponCode ? `(${order.couponCode})` : ""}</span>
+                <span>-{formatVND(order.discountAmount)}</span>
+              </div>
+            )}
+            <div className="flex justify-between">
+              <span>Phí vận chuyển</span>
+              <span>{order.shippingFee === 0 ? "Miễn phí" : formatVND(order.shippingFee)}</span>
+            </div>
+          </div>
+          <div className="mt-3 flex justify-between border-t border-ink-900/10 pt-3 font-serif text-lg text-wine-800">
             <span>Tổng cộng</span>
             <span>{formatVND(order.total)}</span>
           </div>
@@ -128,7 +146,7 @@ export default function OrderLookupPage() {
             </div>
             <div className="flex justify-between">
               <dt>Thanh toán</dt>
-              <dd>{order.paymentMethod === "cod" ? "Thanh toán khi nhận hàng" : "Chuyển khoản ngân hàng"}</dd>
+              <dd>{PAYMENT_METHOD_LABEL[order.paymentMethod]}</dd>
             </div>
           </dl>
         </div>
