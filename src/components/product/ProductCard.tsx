@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { Category, Country, Product } from "@prisma/client";
@@ -12,15 +13,16 @@ export type ProductWithRelations = Product & { category: Category; country: Coun
 
 export function ProductCard({ product }: { product: ProductWithRelations }) {
   const { addItem } = useCart();
+  const [added, setAdded] = useState(false);
   const outOfStock = product.stock <= 0;
   const effectivePrice = product.salePrice ?? product.price;
   const [coverImage] = parseProductImages(product.images);
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-ink-900/10 bg-cream-50 shadow-sm transition-shadow hover:shadow-xl hover:shadow-wine-900/10">
+    <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-ink-900/10 bg-cream-50 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-wine-900/10">
       <Link
         href={`/san-pham/${product.slug}`}
-        className="relative flex h-64 items-center justify-center bg-gradient-to-b from-cream-200 to-cream-100 overflow-hidden"
+        className="shine relative flex h-64 items-center justify-center bg-gradient-to-b from-cream-200 to-cream-100 overflow-hidden"
       >
         {product.isNew && (
           <span className="absolute left-3 top-3 z-10 rounded-full bg-wine-700 px-3 py-1 text-[11px] font-semibold text-cream-50">
@@ -53,7 +55,7 @@ export function ProductCard({ product }: { product: ProductWithRelations }) {
           {product.country.flag} {product.country.name} · {product.region ?? product.category.name}
         </p>
         <Link href={`/san-pham/${product.slug}`}>
-          <h3 className="font-serif text-base leading-snug text-ink-900 line-clamp-2 hover:text-wine-700">
+          <h3 className="font-serif text-base leading-snug text-ink-900 line-clamp-2 transition-colors hover:text-wine-700">
             {product.name}
           </h3>
         </Link>
@@ -72,7 +74,7 @@ export function ProductCard({ product }: { product: ProductWithRelations }) {
           </div>
           <button
             disabled={outOfStock}
-            onClick={() =>
+            onClick={() => {
               addItem({
                 productId: product.id,
                 slug: product.slug,
@@ -81,11 +83,17 @@ export function ProductCard({ product }: { product: ProductWithRelations }) {
                 price: effectivePrice,
                 volumeMl: product.volumeMl,
                 stock: product.stock,
-              })
-            }
-            className="rounded-full bg-wine-800 px-4 py-2 text-xs font-semibold text-cream-50 transition-colors hover:bg-wine-700 disabled:cursor-not-allowed disabled:bg-ink-900/20"
+              });
+              setAdded(true);
+              setTimeout(() => setAdded(false), 1400);
+            }}
+            className={`min-w-[6.5rem] rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200 active:scale-95 disabled:cursor-not-allowed disabled:active:scale-100 ${
+              added
+                ? "bg-emerald-600 text-cream-50"
+                : "bg-wine-800 text-cream-50 hover:bg-wine-700 disabled:bg-ink-900/20"
+            }`}
           >
-            {outOfStock ? "Hết hàng" : "Thêm vào giỏ"}
+            {outOfStock ? "Hết hàng" : added ? "Đã thêm ✓" : "Thêm vào giỏ"}
           </button>
         </div>
       </div>

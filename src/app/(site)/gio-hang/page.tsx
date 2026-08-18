@@ -10,12 +10,12 @@ export default function CartPage() {
 
   if (isHydrated && items.length === 0) {
     return (
-      <div className="container-lux py-24 text-center">
+      <div className="animate-fade-up container-lux py-24 text-center">
         <h1 className="font-serif text-3xl text-ink-900">Giỏ hàng của bạn đang trống</h1>
         <p className="mt-3 text-ink-700/70">Hãy khám phá bộ sưu tập rượu vang của MDWines Cellar.</p>
         <Link
           href="/san-pham"
-          className="mt-6 inline-block rounded-full bg-wine-800 px-7 py-3 text-sm font-semibold text-cream-50 hover:bg-wine-700"
+          className="mt-6 inline-block rounded-full bg-wine-800 px-7 py-3 text-sm font-semibold text-cream-50 transition-transform duration-200 hover:scale-105 hover:bg-wine-700 active:scale-95"
         >
           Tiếp tục mua sắm
         </Link>
@@ -24,7 +24,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="container-lux py-10">
+    <div className="animate-fade-up container-lux py-10">
       <h1 className="font-serif text-3xl text-ink-900">Giỏ hàng</h1>
 
       <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_360px]">
@@ -32,7 +32,7 @@ export default function CartPage() {
           {items.map((item) => (
             <div
               key={item.productId}
-              className="flex items-center gap-4 rounded-2xl border border-ink-900/10 bg-cream-50 p-4"
+              className="flex items-center gap-4 rounded-2xl border border-ink-900/10 bg-cream-50 p-4 transition-shadow duration-200 hover:shadow-md"
             >
               <Link href={`/san-pham/${item.slug}`} className="shrink-0">
                 <WineBottleArt category={item.category} className="h-24 w-auto" />
@@ -46,14 +46,14 @@ export default function CartPage() {
               </div>
               <div className="flex items-center rounded-full border border-ink-900/15">
                 <button
-                  className="px-3 py-1.5 text-ink-800"
+                  className="px-3 py-1.5 text-ink-800 transition-transform active:scale-90"
                   onClick={() => updateQuantity(item.productId, item.quantity - 1)}
                 >
                   −
                 </button>
                 <span className="w-8 text-center text-sm">{item.quantity}</span>
                 <button
-                  className="px-3 py-1.5 text-ink-800"
+                  className="px-3 py-1.5 text-ink-800 transition-transform active:scale-90"
                   onClick={() => updateQuantity(item.productId, item.quantity + 1)}
                 >
                   +
@@ -65,7 +65,7 @@ export default function CartPage() {
               <button
                 aria-label="Xóa sản phẩm"
                 onClick={() => removeItem(item.productId)}
-                className="text-ink-700/50 hover:text-wine-700"
+                className="text-ink-700/50 transition-all duration-200 hover:scale-110 hover:text-wine-700"
               >
                 ✕
               </button>
@@ -89,7 +89,7 @@ export default function CartPage() {
           </div>
           <Link
             href="/thanh-toan"
-            className="mt-6 block rounded-full bg-wine-800 py-3 text-center text-sm font-semibold text-cream-50 hover:bg-wine-700"
+            className="mt-6 block rounded-full bg-wine-800 py-3 text-center text-sm font-semibold text-cream-50 transition-all duration-200 hover:bg-wine-700 active:scale-[0.98]"
           >
             Tiến hành thanh toán
           </Link>

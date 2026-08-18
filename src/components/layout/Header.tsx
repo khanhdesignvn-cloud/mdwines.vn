@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCart } from "@/lib/cart-context";
 
 type NavCategory = { slug: string; name: string };
@@ -14,11 +14,29 @@ export function Header({
   customerName: string | null;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { itemCount, isHydrated } = useCart();
 
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 12);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 bg-ink-900 text-cream-100 shadow-lg shadow-black/20">
-      <div className="bg-wine-950 text-gold-200 text-xs tracking-wide">
+    <header
+      className={`sticky top-0 z-50 bg-ink-900 text-cream-100 transition-shadow duration-300 ${
+        scrolled ? "shadow-lg shadow-black/25 backdrop-blur-sm" : "shadow-md shadow-black/10"
+      }`}
+    >
+      <div
+        className={`overflow-hidden bg-wine-950 text-gold-200 text-xs tracking-wide transition-[max-height,opacity] duration-300 ${
+          scrolled ? "max-h-0 opacity-0" : "max-h-12 opacity-100"
+        }`}
+      >
         <div className="container-lux flex items-center justify-between py-2">
           <p className="hidden sm:block">
             Miễn phí giao hàng nội thành cho đơn từ 2.000.000₫ · Hotline tư vấn: 1900 6868
@@ -35,7 +53,11 @@ export function Header({
         </div>
       </div>
 
-      <div className="container-lux flex items-center justify-between py-4">
+      <div
+        className={`container-lux flex items-center justify-between transition-[padding] duration-300 ${
+          scrolled ? "py-2.5" : "py-4"
+        }`}
+      >
         <Link href="/" className="flex items-center gap-3 shrink-0">
           <span className="flex h-11 w-11 items-center justify-center rounded-full border border-gold-400 text-gold-300 font-serif text-lg">
             MD
@@ -46,22 +68,22 @@ export function Header({
         </Link>
 
         <nav className="hidden lg:flex items-center gap-8 font-medium text-sm">
-          <Link href="/san-pham" className="hover:text-gold-300 transition-colors">
+          <Link href="/san-pham" className="relative py-1 transition-colors hover:text-gold-300 nav-underline">
             Tất cả sản phẩm
           </Link>
           {categories.map((c) => (
             <Link
               key={c.slug}
               href={`/san-pham?category=${c.slug}`}
-              className="hover:text-gold-300 transition-colors"
+              className="relative py-1 transition-colors hover:text-gold-300 nav-underline"
             >
               {c.name}
             </Link>
           ))}
-          <Link href="/gioi-thieu" className="hover:text-gold-300 transition-colors">
+          <Link href="/gioi-thieu" className="relative py-1 transition-colors hover:text-gold-300 nav-underline">
             Giới thiệu
           </Link>
-          <Link href="/tin-tuc" className="hover:text-gold-300 transition-colors">
+          <Link href="/tin-tuc" className="relative py-1 transition-colors hover:text-gold-300 nav-underline">
             Tin tức
           </Link>
         </nav>
@@ -69,19 +91,22 @@ export function Header({
         <div className="flex items-center gap-4">
           <Link
             href={customerName ? "/tai-khoan" : "/dang-nhap"}
-            className="hidden items-center gap-2 text-sm hover:text-gold-300 sm:flex"
+            className="hidden items-center gap-2 text-sm transition-colors hover:text-gold-300 sm:flex"
           >
             <AccountIcon />
             {customerName ? customerName.split(" ").pop() : "Đăng nhập"}
           </Link>
           <Link
             href="/gio-hang"
-            className="relative flex items-center gap-2 rounded-full border border-gold-400/60 px-4 py-2 text-sm hover:bg-gold-400/10 transition-colors"
+            className="relative flex items-center gap-2 rounded-full border border-gold-400/60 px-4 py-2 text-sm transition-colors hover:bg-gold-400/10"
           >
             <CartIcon />
             <span className="hidden sm:inline">Giỏ hàng</span>
             {isHydrated && itemCount > 0 && (
-              <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-gold-400 text-[11px] font-bold text-ink-900">
+              <span
+                key={itemCount}
+                className="animate-badge-pop absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-gold-400 text-[11px] font-bold text-ink-900"
+              >
                 {itemCount}
               </span>
             )}
@@ -97,7 +122,7 @@ export function Header({
       </div>
 
       {menuOpen && (
-        <nav className="lg:hidden border-t border-white/10 bg-ink-900">
+        <nav className="lg:hidden border-t border-white/10 bg-ink-900 animate-fade-up">
           <div className="container-lux flex flex-col py-3 text-sm">
             <Link href="/san-pham" className="py-2" onClick={() => setMenuOpen(false)}>
               Tất cả sản phẩm

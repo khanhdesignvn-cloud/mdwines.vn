@@ -313,7 +313,7 @@ export default function CheckoutPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="mt-6 w-full rounded-full bg-wine-800 py-3 text-sm font-semibold text-cream-50 hover:bg-wine-700 disabled:opacity-60"
+            className="mt-6 w-full rounded-full bg-wine-800 py-3 text-sm font-semibold text-cream-50 transition-all duration-200 hover:bg-wine-700 active:scale-[0.98] disabled:opacity-60 disabled:active:scale-100"
           >
             {submitting ? "Đang xử lý..." : paymentMethod === "vnpay" ? "Tiếp tục đến VNPay" : "Đặt hàng"}
           </button>

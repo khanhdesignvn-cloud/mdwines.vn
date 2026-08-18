@@ -33,7 +33,7 @@ export function AddToCartPanel({
         <button
           type="button"
           aria-label="Giảm số lượng"
-          className="px-4 py-2 text-lg text-ink-800 disabled:opacity-30"
+          className="px-4 py-2 text-lg text-ink-800 transition-transform active:scale-90 disabled:opacity-30 disabled:active:scale-100"
           onClick={() => setQty((q) => Math.max(1, q - 1))}
           disabled={outOfStock}
         >
@@ -43,7 +43,7 @@ export function AddToCartPanel({
         <button
           type="button"
           aria-label="Tăng số lượng"
-          className="px-4 py-2 text-lg text-ink-800 disabled:opacity-30"
+          className="px-4 py-2 text-lg text-ink-800 transition-transform active:scale-90 disabled:opacity-30 disabled:active:scale-100"
           onClick={() => setQty((q) => Math.min(stock || 99, q + 1))}
           disabled={outOfStock}
         >
@@ -59,7 +59,9 @@ export function AddToCartPanel({
           setAdded(true);
           setTimeout(() => setAdded(false), 1800);
         }}
-        className="flex-1 min-w-[180px] rounded-full bg-wine-800 px-6 py-3 text-sm font-semibold text-cream-50 transition-colors hover:bg-wine-700 disabled:cursor-not-allowed disabled:bg-ink-900/20"
+        className={`flex-1 min-w-[180px] rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200 active:scale-95 disabled:cursor-not-allowed disabled:active:scale-100 ${
+          added ? "bg-emerald-600 text-cream-50" : "bg-wine-800 text-cream-50 hover:bg-wine-700 disabled:bg-ink-900/20"
+        }`}
       >
         {outOfStock ? "Hết hàng" : added ? "Đã thêm vào giỏ ✓" : "Thêm vào giỏ hàng"}
       </button>
@@ -71,7 +73,7 @@ export function AddToCartPanel({
           addItem({ productId, slug, name, category, price, volumeMl, stock }, qty);
           router.push("/thanh-toan");
         }}
-        className="rounded-full border border-wine-800 px-6 py-3 text-sm font-semibold text-wine-800 transition-colors hover:bg-wine-800 hover:text-cream-50 disabled:cursor-not-allowed disabled:opacity-30"
+        className="rounded-full border border-wine-800 px-6 py-3 text-sm font-semibold text-wine-800 transition-all duration-200 hover:bg-wine-800 hover:text-cream-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-30 disabled:active:scale-100"
       >
         Mua ngay
       </button>

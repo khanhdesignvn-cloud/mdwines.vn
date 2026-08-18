@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { getCategories, getCountries, getProducts, type SortOption } from "@/lib/data";
 import { ProductCard } from "@/components/product/ProductCard";
+import { Reveal } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
   title: "Sản phẩm",
@@ -44,7 +45,7 @@ export default async function ProductListPage({
 
   return (
     <div className="container-lux py-10">
-      <div className="mb-8">
+      <div className="animate-fade-up mb-8">
         <p className="text-xs tracking-[0.2em] text-wine-700">BỘ SƯU TẬP</p>
         <h1 className="mt-2 font-serif text-3xl text-ink-900">
           {activeCategory ? activeCategory.name : "Tất cả sản phẩm"}
@@ -156,8 +157,10 @@ export default async function ProductListPage({
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {products.map((p) => (
-                <ProductCard key={p.id} product={p} />
+              {products.map((p, i) => (
+                <Reveal key={p.id} delay={(i % 6) * 60}>
+                  <ProductCard product={p} />
+                </Reveal>
               ))}
             </div>
           )}

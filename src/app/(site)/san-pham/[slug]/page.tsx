@@ -6,6 +6,7 @@ import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductCard } from "@/components/product/ProductCard";
 import { AddToCartPanel } from "@/components/product/AddToCartPanel";
 import { ProductReviews } from "@/components/product/ProductReviews";
+import { Reveal } from "@/components/ui/Reveal";
 import { formatVND } from "@/lib/format";
 import { parseProductImages } from "@/lib/product-image";
 import { prisma } from "@/lib/prisma";
@@ -60,7 +61,7 @@ export default async function ProductDetailPage({ params }: PageProps<"/san-pham
         / <span className="text-ink-800">{product.name}</span>
       </nav>
 
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+      <div className="animate-fade-up grid grid-cols-1 gap-12 lg:grid-cols-2">
         <ProductGallery
           images={parseProductImages(product.images)}
           category={product.category.slug}
@@ -127,27 +128,27 @@ export default async function ProductDetailPage({ params }: PageProps<"/san-pham
 
       <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-2">
         {product.tastingNotes && (
-          <div className="rounded-2xl border border-ink-900/10 bg-cream-50 p-6">
+          <Reveal className="rounded-2xl border border-ink-900/10 bg-cream-50 p-6 transition-shadow duration-300 hover:shadow-lg">
             <h2 className="font-serif text-xl text-ink-900">Hương vị</h2>
             <p className="mt-3 leading-relaxed text-ink-800/85">{product.tastingNotes}</p>
-          </div>
+          </Reveal>
         )}
         {product.foodPairing && (
-          <div className="rounded-2xl border border-ink-900/10 bg-cream-50 p-6">
+          <Reveal delay={90} className="rounded-2xl border border-ink-900/10 bg-cream-50 p-6 transition-shadow duration-300 hover:shadow-lg">
             <h2 className="font-serif text-xl text-ink-900">Gợi ý kết hợp món ăn</h2>
             <p className="mt-3 leading-relaxed text-ink-800/85">{product.foodPairing}</p>
-          </div>
+          </Reveal>
         )}
       </div>
 
       {product.description && (
-        <div className="mt-8 rounded-2xl border border-ink-900/10 bg-cream-50 p-6">
+        <Reveal className="mt-8 rounded-2xl border border-ink-900/10 bg-cream-50 p-6">
           <h2 className="font-serif text-xl text-ink-900">Giới thiệu chi tiết</h2>
           <p className="mt-3 leading-relaxed text-ink-800/85">{product.description}</p>
-        </div>
+        </Reveal>
       )}
 
-      <div className="mt-8">
+      <Reveal className="mt-8">
         <ProductReviews
           productId={product.id}
           productSlug={product.slug}
@@ -155,14 +156,16 @@ export default async function ProductDetailPage({ params }: PageProps<"/san-pham
           isLoggedIn={Boolean(customer)}
           myReview={myReview}
         />
-      </div>
+      </Reveal>
 
       {related.length > 0 && (
         <div className="mt-16">
           <h2 className="mb-6 font-serif text-2xl text-ink-900">Sản phẩm liên quan</h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {related.map((p) => (
-              <ProductCard key={p.id} product={p} />
+            {related.map((p, i) => (
+              <Reveal key={p.id} delay={i * 80}>
+                <ProductCard product={p} />
+              </Reveal>
             ))}
           </div>
         </div>
