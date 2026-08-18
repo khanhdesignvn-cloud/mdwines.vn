@@ -39,3 +39,14 @@ export async function verifyAdminSessionToken(
 }
 
 export const ADMIN_SESSION_MAX_AGE = SESSION_DURATION_SECONDS;
+
+// Behind a reverse proxy (Nginx, etc.) Next.js only ever sees the internal
+// http:// request; the real external scheme comes through X-Forwarded-Proto.
+// Used to decide whether the admin session cookie can be marked Secure —
+// marking it Secure on a plain-HTTP deployment would make browsers silently
+// drop it, breaking login with no visible error.
+export function isHttpsRequest(request: Request): boolean {
+  const forwardedProto = request.headers.get("x-forwarded-proto");
+  if (forwardedProto) return forwardedProto.split(",")[0].trim() === "https";
+  return new URL(request.url).protocol === "https:";
+}

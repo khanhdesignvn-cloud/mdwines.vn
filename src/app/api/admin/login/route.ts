@@ -2,7 +2,12 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { ADMIN_SESSION_COOKIE, ADMIN_SESSION_MAX_AGE, createAdminSessionToken } from "@/lib/auth";
+import {
+  ADMIN_SESSION_COOKIE,
+  ADMIN_SESSION_MAX_AGE,
+  createAdminSessionToken,
+  isHttpsRequest,
+} from "@/lib/auth";
 
 const loginSchema = z.object({
   email: z.string().trim().email(),
@@ -34,7 +39,7 @@ export async function POST(request: Request) {
   const response = NextResponse.json({ ok: true });
   response.cookies.set(ADMIN_SESSION_COOKIE, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isHttpsRequest(request),
     sameSite: "lax",
     path: "/",
     maxAge: ADMIN_SESSION_MAX_AGE,
