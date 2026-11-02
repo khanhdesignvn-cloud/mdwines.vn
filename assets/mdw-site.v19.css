@@ -1,0 +1,175 @@
+/* Hero slider */
+.hero-bg{background:none!important;inset:0!important;animation:none!important;overflow:hidden}
+.hero-bg .hs{position:absolute;inset:0;opacity:0;transform:scale(1.04);transition:opacity 1.4s ease,transform 7s linear;will-change:opacity,transform}
+.hero-bg .hs img{width:100%;height:100%;object-fit:cover;object-position:50% 60%;display:block}
+.hero-bg .hs.on{opacity:1;transform:scale(1.12)}
+.hero-bg .hs.out{opacity:0;transform:scale(1.12)}
+.hero-dots{position:absolute;left:max(5.2vw,24px);bottom:22px;display:flex;gap:10px;z-index:3}
+.hero-dots button{width:34px;height:18px;padding:0;border:0;background:none;cursor:pointer;position:relative}
+.hero-dots button:before{content:"";position:absolute;left:0;right:0;top:8px;height:2px;background:#f5f0e74d}
+.hero-dots button:after{content:"";position:absolute;left:0;top:8px;height:2px;width:0;background:#d4af5f}
+.hero-dots button.on:after{width:100%;transition:width 6s linear}
+.hero-overlay{background:linear-gradient(90deg,#140508e6,#1f090c8c 45%,#16070810 78%),linear-gradient(#0000 45%,#120608cc)!important}
+@media (max-width:760px){
+ .hero{min-height:0;background:#120708;align-items:flex-start}
+ .hero-bg{top:68px!important;bottom:auto!important;height:50svh;min-height:340px;-webkit-mask-image:linear-gradient(#000 68%,transparent);mask-image:linear-gradient(#000 68%,transparent)}
+ .hero-bg .hs img{object-position:var(--mx,50%) 50%}
+ .hero-overlay{inset:0 0 auto 0!important;height:56svh;min-height:380px;background:linear-gradient(#120608d9,#12060800 26%)!important}
+ .hero-inner{padding-top:max(58svh,400px)!important;padding-bottom:84px!important}
+ .hero-dots{left:24px;top:max(56svh,382px);bottom:auto}
+ .hero-title{font-size:clamp(46px,14.5vw,64px)}
+}
+@media (prefers-reduced-motion:reduce){.hero-bg .hs,.hero-bg .hs.on{transition:opacity .6s;transform:none}}
+/* Header legibility on bright hero images (+20% text) */
+.header:not(.scrolled){background:linear-gradient(#0f0507e6,#0f050799 62%,#0f050700)}
+.nav-links{font-size:12px;gap:26px}
+.nav-links a,.nav-cart{opacity:1;color:#f7efe3;text-shadow:0 1px 8px #000c,0 0 2px #0009}
+.nav-links a.nav-cta,.nav-cta{color:#e9c777}
+.nav-cart{font-size:12px}.nav-cart span{font-size:10px;min-width:20px;height:20px}
+.brand-type{text-shadow:0 1px 8px #000b}
+.editorial-nav-links>a:not(.nav-cta),.editorial-nav-links>button{font-size:13px;text-shadow:0 1px 8px #000b}
+.mobile-menu a{font-size:1.1em}
+@media (max-width:1180px){.nav-links{gap:18px;font-size:11.5px}}
+@media (max-width:700px){
+ .contact-rail{grid-template-columns:repeat(3,1fr)!important}
+ body{padding-bottom:66px}
+ .contact-rail-item span{font-size:11px}
+}
+.nav-links a.nav-cta{color:#f3d27f!important;opacity:1!important;-webkit-text-fill-color:#f3d27f;background:none!important;border-bottom:1px solid #d4af5f;font-weight:800}
+@media (min-width:761px){.hero-bg .hs img{object-position:50% 100%}}
+/* Header -30% height, centred logo */
+.header .brand-mark{height:74px!important;width:auto!important}
+.header{padding-top:15px!important;padding-bottom:15px!important}
+.header.scrolled{padding-top:9px!important;padding-bottom:9px!important}
+.header.scrolled .brand-mark{height:56px!important}
+@media (max-width:760px){.header .brand-mark{height:60px!important}.header{padding-top:10px!important;padding-bottom:10px!important}}
+@media (min-width:1101px){
+ .header .nav-inner{position:relative;min-height:74px}
+ .header .nav-links{display:contents}
+ .header .nav-links>*{order:1}
+ .header .nav-links>*:nth-child(n+4){order:3}
+ .header .nav-links>*:nth-child(4){margin-left:auto}
+ .header .brand{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);order:2;z-index:2}
+ .header .nav-inner{justify-content:flex-start;gap:26px}
+}
+@media (min-width:761px) and (max-width:900px){.header .brand{margin:0 auto}}
+@media (max-width:900px){.header .nav-inner{position:relative;justify-content:center}.header .brand{margin:0 auto}.header .mobile-toggle{position:absolute;right:0;top:50%;transform:translateY(-50%)}}
+/* Readability on the beige story-bridge block */
+.brand-story-bridge>div h2{color:#2b0d12!important;-webkit-text-fill-color:#2b0d12}
+.brand-story-bridge>div h2 i{color:#8a5a12!important;-webkit-text-fill-color:#8a5a12}
+.brand-story-bridge>div .eyebrow,.brand-story-bridge>div>span{color:#6e4f10!important;-webkit-text-fill-color:#6e4f10;background:none!important;font-weight:800}
+.brand-story-bridge>div>p{color:#2e1216!important;font-size:17px}
+/* ===== Collection: 3 x 2 balanced grid + premium hover ===== */
+.collection-layout{grid-template-columns:1fr!important;min-height:0!important}
+.shop-grid{grid-template-columns:repeat(3,1fr)!important;align-items:stretch!important;gap:0!important;border:1px solid #c49a6159!important;border-bottom:0!important;background:#0e0507}
+.shop-wine-card{position:relative;isolation:isolate;min-height:0!important;padding:26px 30px 30px!important;border:0!important;border-right:1px solid #c49a6140!important;border-bottom:1px solid #c49a6140!important;display:flex;flex-direction:column;overflow:hidden;transition:background .4s,transform .4s cubic-bezier(.23,1,.32,1)}
+.shop-wine-card:nth-child(3n){border-right:0!important}
+.shop-wine-card>*{position:relative;z-index:2}
+.shop-wine-card:before{content:"";position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .45s;background:radial-gradient(420px circle at var(--sx,50%) var(--sy,38%),#d4af5f2e,#d4af5f0d 38%,transparent 66%)}
+.shop-wine-card:after{content:"";position:absolute;inset:12px;z-index:1;pointer-events:none;border:1px solid #d4af5f00;transition:border-color .45s,inset .45s cubic-bezier(.23,1,.32,1)}
+.shop-wine-card:hover,.shop-wine-card:focus-visible{background:#1a0a0e;box-shadow:none!important}
+.shop-wine-card:hover:before,.shop-wine-card:focus-visible:before{opacity:1}
+.shop-wine-card:hover:after,.shop-wine-card:focus-visible:after{border-color:#d4af5f8c;inset:8px}
+.shop-card-head{font-size:13px}.wine-number{font-size:15px;letter-spacing:.12em}
+.shop-card-status{font-size:10px!important}
+.shop-bottle-stage{flex:none!important;height:350px;max-height:none!important;padding:18px 12px 10px!important;place-items:center!important;overflow:visible!important;position:relative}
+.shop-bottle-stage:before{content:"";position:absolute;left:50%;bottom:6px;width:52%;height:16px;border-radius:50%;background:radial-gradient(#000c,transparent 70%);transform:translateX(-50%);transition:transform .5s,opacity .5s;opacity:.7}
+.shop-bottle-stage img{max-height:318px!important;filter:drop-shadow(0 18px 22px #0009);transition:transform .6s cubic-bezier(.23,1,.32,1),filter .6s!important}
+.shop-wine-card:hover .shop-bottle-stage img{transform:translateY(-14px) scale(1.06) rotate(-1.2deg)!important;filter:drop-shadow(0 30px 30px #000b) drop-shadow(0 0 26px #d4af5f40)}
+.shop-wine-card:hover .shop-bottle-stage:before{transform:translateX(-50%) scale(.82);opacity:.45}
+.wine-meta{flex:1;display:flex;flex-direction:column;border-top:1px solid #c49a6154;padding-top:18px!important;transition:border-color .4s}
+.shop-wine-card:hover .wine-meta{border-color:#d4af5f99}
+.wine-place{font-size:10.5px!important}
+.wine-name{font-size:27px!important;min-height:2.1em;margin:9px 0 10px!important;display:block}
+.wine-card-story{font-size:13.5px!important;line-height:1.6!important;max-width:none!important;min-height:4.8em;margin:0 0 16px!important;color:#f5f0e7b8!important}
+.wine-specs{margin-top:auto!important;padding-top:13px!important}
+.wine-specs dt{font-size:9px!important}.wine-specs dd{font-size:12px!important}
+.shop-card-bottom{padding-top:6px}
+.shop-price{font-size:30px!important;transition:text-shadow .4s}.shop-price small{font-size:10px!important}
+.shop-wine-card:hover .shop-price{text-shadow:0 0 22px #d4af5f66}
+.card-detail-link{font-size:12px!important;transition:letter-spacing .35s,color .3s}
+.card-detail-link svg{transition:transform .35s}
+.shop-wine-card:hover .card-detail-link{color:#f3d27f;letter-spacing:.2em}
+.shop-wine-card:hover .card-detail-link svg{transform:translate(4px,-4px)}
+.collection-image{min-height:380px!important}
+@media (max-width:1100px){.shop-grid{grid-template-columns:repeat(2,1fr)!important}.shop-wine-card:nth-child(3n){border-right:1px solid #c49a6140!important}.shop-wine-card:nth-child(2n){border-right:0!important}}
+@media (max-width:680px){.shop-grid{grid-template-columns:1fr!important;display:grid!important}.shop-wine-card{border-right:0!important;padding:22px 20px 24px!important}.shop-bottle-stage{height:300px}.shop-bottle-stage img{max-height:270px!important}.wine-name,.wine-card-story{min-height:0}}
+@media (hover:none){.shop-wine-card:before{display:none}}
+.shop-grid{grid-auto-rows:1fr}
+/* Collection band: vineyard landscape, no cropping of bottles */
+.collection-image{min-height:min(52vw,560px)!important}
+.collection-image:before{background:url(/assets/media/barossa-vineyard-unsplash_e1432d32_hq.webp) 50% 55%/cover no-repeat!important;inset:0!important}
+.collection-image:after{background:linear-gradient(90deg,#120608d9,#12060866 45%,#12060800 75%),linear-gradient(#0000 55%,#120608b3)!important}
+.collection-caption{left:max(5vw,28px)!important;right:auto!important;bottom:48px!important;max-width:520px}
+.collection-caption p{font-size:20px!important;line-height:1.5;border-left-width:2px!important;padding-left:18px!important;color:#f5f0e7ee!important}
+.collection-caption .eyebrow{font-size:12px!important}
+.collection-caption-meta{font-size:11px!important;margin-top:20px!important}
+@media (max-width:680px){.collection-image{min-height:380px!important}.collection-caption{left:20px!important;right:20px!important;bottom:28px!important}.collection-caption p{font-size:17px!important}}
+/* Card: roomier, ~20% smaller type */
+.shop-wine-card{padding:30px 36px 34px!important}
+.shop-bottle-stage{height:330px;margin-bottom:10px}
+.shop-bottle-stage img{max-height:300px!important}
+.wine-meta{padding-top:22px!important}
+.wine-place{font-size:10px!important;letter-spacing:.14em!important}
+.wine-name{font-size:22px!important;line-height:1.2!important;min-height:2.5em;margin:12px 0 14px!important}
+.wine-card-story{font-size:12.5px!important;line-height:1.75!important;min-height:5.3em;margin:0 0 22px!important}
+.wine-specs{padding-top:16px!important;margin-bottom:22px!important}
+.wine-specs dd{font-size:11px!important}
+.shop-price{font-size:25px!important}.shop-price small{font-size:9px!important;margin-bottom:4px}
+.card-detail-link{font-size:11px!important}
+.shop-card-bottom{padding-top:4px;gap:12px}
+@media (max-width:1100px){.shop-wine-card{padding:26px 28px 30px!important}}
+/* Editorial (sub-page) header: logo as large as home */
+.editorial-nav .brand-mark{width:auto!important;height:74px!important;max-width:none}
+.editorial-nav .brand-type{font-size:21px!important}
+.editorial-nav .brand-type span{font-size:12px!important}
+.editorial-header{padding-top:8px!important;padding-bottom:8px!important}
+@media (max-width:760px){.editorial-nav .brand-mark{height:56px!important}.editorial-nav .brand-type{font-size:17px!important}}
+/* Logo +30%, aligned with wordmark, no overlap */
+.header .brand-mark,.editorial-nav .brand-mark{height:96px!important;width:auto!important;margin-right:0!important}
+.header.scrolled .brand-mark{height:72px!important}
+.header .brand,.editorial-nav .brand{gap:18px!important;align-items:center!important}
+.header .brand .brand-mark,.editorial-nav .brand .brand-mark{margin-right:0!important}
+.header .brand-type,.editorial-nav .brand-type{display:flex;align-items:baseline;line-height:1;padding-top:2px}
+@media (min-width:1101px){.header .nav-inner{min-height:96px}}
+@media (max-width:760px){.header .brand-mark,.editorial-nav .brand-mark{height:68px!important}.header .brand,.editorial-nav .brand{gap:12px!important}}
+/* Logo +30% again, tighter to wordmark */
+.header .brand-mark,.editorial-nav .brand-mark{height:125px!important}
+.header.scrolled .brand-mark{height:92px!important}
+.header .brand,.editorial-nav .brand{gap:2px!important}
+@media (min-width:1101px){.header .nav-inner{min-height:125px}}
+@media (max-width:760px){.header .brand-mark,.editorial-nav .brand-mark{height:84px!important}.header .brand,.editorial-nav .brand{gap:2px!important}}
+/* Header height -30% */
+.header .brand-mark,.editorial-nav .brand-mark{height:88px!important}
+.header.scrolled .brand-mark{height:66px!important}
+.header{padding-top:6px!important;padding-bottom:6px!important}
+.header.scrolled{padding-top:4px!important;padding-bottom:4px!important}
+.editorial-header{padding-top:4px!important;padding-bottom:4px!important}
+@media (min-width:1101px){.header .nav-inner{min-height:88px}}
+@media (max-width:760px){.header .brand-mark,.editorial-nav .brand-mark{height:62px!important}}
+/* Logo optically centred on wordmark; header unchanged on scroll */
+.header .brand-mark,.editorial-nav .brand-mark{translate:0 9px}
+.header.scrolled .brand-mark{height:88px!important}
+.header.scrolled{padding-top:6px!important;padding-bottom:6px!important}
+@media (max-width:760px){.header .brand-mark,.editorial-nav .brand-mark{translate:0 6px}.header.scrolled .brand-mark{height:62px!important}}
+/* Removed sections */
+.brand-story-bridge,section:has(.moments-grid){display:none!important}
+/* Journal rail: real logo instead of "MD" */
+.article-rail-mark span{display:block;width:96px;height:96px;border:0!important;border-radius:0!important;font-size:0!important;color:transparent!important;background:url(/assets/media/mdwines-gold-logo-new_03006611_hq.webp) center/contain no-repeat!important}
+/* Logo slide */
+.hero-bg .hs.lg{background:radial-gradient(circle at 70% 48%,#4a1520 0,#240a10 45%,#0d0506 85%);display:flex;align-items:center;justify-content:flex-end}
+.hero-bg .hs.lg .lgi{width:min(46%,560px);margin-right:6%;text-align:center;display:flex;flex-direction:column;align-items:center}
+.hero-bg .hs.lg img{width:min(300px,62%);height:auto;object-fit:contain;filter:drop-shadow(0 0 40px #e1c69a66)}
+.hero-bg .hs.lg span{margin-top:18px;font:600 clamp(28px,3.4vw,46px)/1 Fraunces,Georgia,serif;letter-spacing:.08em;color:#f5f0e7}
+.hero-bg .hs.lg em{margin-top:12px;font:600 12px/1 Fraunces,Georgia,serif;letter-spacing:.34em;text-transform:uppercase;color:#d4af5f;font-style:normal}
+@media (max-width:760px){.hero-bg .hs.lg{justify-content:center;align-items:center}.hero-bg .hs.lg .lgi{width:80%;margin:0}.hero-bg .hs.lg img{width:150px}.hero-bg .hs.lg span{font-size:26px}}
+/* footer: chỉ logo, căn giữa, to hơn 30% */
+footer .footer-grid>.brand{grid-column:1/-1;justify-self:center;display:flex;justify-content:center;margin:6px auto 10px}
+footer .footer-grid>.brand .brand-type{display:none!important}
+footer .footer-grid>.brand .brand-mark{width:122px!important;height:auto!important;margin:0 auto}
+@media(max-width:700px){footer .footer-grid>.brand .brand-mark{width:110px!important}}
+
+/* banner ảnh thật: phủ tối để chữ đọc rõ */
+.hs:not(.lg):after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#120708ec 0,#120708a8 34%,#1207084d 66%,#12070820 100%)}
+.hs:not(.lg) img{filter:brightness(.95) saturate(1.05)}
+@media(max-width:900px){.hs:not(.lg):after{background:linear-gradient(180deg,#12070866 0,#12070855 55%,#120708cc 100%)}}
