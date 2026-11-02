@@ -1,0 +1,9 @@
+.shop-card-bottom{flex-wrap:wrap;row-gap:12px}
+.shop-card-bottom .mdw-buy,.shop-card-bottom .mdw-qty{order:3;flex:0 0 auto;width:100%;height:50px;min-height:50px;box-sizing:border-box;align-self:stretch}
+.mdw-buy{background:linear-gradient(135deg,#d9b25f,#b8832f);color:#1a0d10;border:0;font:700 13px/1 inherit;font-family:inherit;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;padding:0 16px;touch-action:manipulation}
+.mdw-buy:active{filter:brightness(.9)}
+.mdw-qty{display:flex;align-items:stretch;border:1px solid #c79a45;background:rgba(0,0,0,.25)}
+.mdw-qty button{flex:0 0 56px;background:transparent;color:#e7c777;border:0;font-size:24px;cursor:pointer;touch-action:manipulation}
+.mdw-qty button:active{background:rgba(199,154,69,.25)}
+.mdw-qty span{flex:1;display:flex;align-items:center;justify-content:center;color:#f4e6c3;font-size:14px;letter-spacing:.06em}
+@media(max-width:700px){.shop-wine-card .shop-card-bottom{padding-bottom:4px}}
