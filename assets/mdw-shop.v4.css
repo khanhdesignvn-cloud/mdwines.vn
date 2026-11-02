@@ -32,3 +32,4 @@
 .mdw-dd li:active,.mdw-dd li:hover{background:rgba(199,154,69,.22)}
 .mdw-dd li.on{color:#f0d58a;font-weight:700}
 .mdw-dd li.none{color:#8d7b6c;cursor:default}
+.mdw-dd li small.mdw-old{display:block;margin-top:3px;color:#a99886;font-size:12px;font-weight:400}

@@ -144,6 +144,26 @@ function mdw_smtp_send($user, $pass, $to, $subject, $headers, $body) {
     return $okAll;
 }
 
+// Thông báo Telegram (kênh dự phòng cho email): file ngoài web <orders>/telegram.txt (dòng 1: bot token, dòng 2: chat id)
+function mdw_telegram($text) {
+    $cfg = @file(mdw_orders_dir() . '/telegram.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    if (!$cfg || count($cfg) < 2) { return null; }
+    $token = trim($cfg[0]); $chat = trim($cfg[1]);
+    if (!preg_match('/^\d+:[A-Za-z0-9_\-]+$/', $token)) { return false; }
+    $data = http_build_query(['chat_id' => $chat, 'text' => mb_substr($text, 0, 3900), 'disable_web_page_preview' => 'true']);
+    $url = 'https://api.telegram.org/bot' . $token . '/sendMessage';
+    $res = false;
+    if (function_exists('curl_init')) {
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [CURLOPT_POST => true, CURLOPT_POSTFIELDS => $data, CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 8, CURLOPT_CONNECTTIMEOUT => 5]);
+        $res = curl_exec($ch); curl_close($ch);
+    } else {
+        $res = @file_get_contents($url, false, stream_context_create(['http' => ['method' => 'POST', 'header' => 'Content-Type: application/x-www-form-urlencoded', 'content' => $data, 'timeout' => 8]]));
+    }
+    $j = $res ? json_decode($res, true) : null;
+    return is_array($j) && !empty($j['ok']);
+}
+
 function mdw_deliver($subject, $body, $headers) {
     $host = preg_replace('/^www\./', '', isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'mdwines.vn');
     $host = preg_replace('/[^a-z0-9.\-]/i', '', $host);
@@ -163,5 +183,8 @@ function mdw_deliver($subject, $body, $headers) {
     if (!$ok) { $ok = @mail(MDW_OWNER_EMAIL, $subject, chunk_split(base64_encode($body)), $headers); }
     $dir = mdw_orders_dir();
     @file_put_contents($dir . '/mail.log', date('c') . ' ' . ($ok ? 'SENT' : 'FAIL') . '/' . $via . ' to=' . MDW_OWNER_EMAIL . ' ' . mb_substr(preg_replace('/\s+/', ' ', $body), 0, 60) . "\n", FILE_APPEND | LOCK_EX);
-    return $ok;
+    $tgText = (function_exists('iconv_mime_decode') ? iconv_mime_decode($subject, 0, 'UTF-8') : $subject) . "\n\n" . $body;
+    $tg = mdw_telegram($tgText);
+    if ($tg !== null) { @file_put_contents($dir . '/mail.log', date('c') . ' TELEGRAM ' . ($tg ? 'SENT' : 'FAIL') . "\n", FILE_APPEND | LOCK_EX); }
+    return $ok || $tg === true;
 }
