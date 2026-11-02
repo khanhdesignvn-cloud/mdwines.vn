@@ -42,5 +42,5 @@ window.addEventListener('popstate',later);window.addEventListener('load',later);
 document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelectorAll||(f.classList&&f.classList.contains('direct-order-form'))||(f.closest&&f.closest('#mdwc')))return;var fs=[];f.querySelectorAll('input,textarea').forEach(function(i){if(i.type==='hidden'||i.type==='submit'||i.type==='button')return;fs.push({label:i.placeholder||i.name||i.type,value:i.value});});if(!fs.length)return;try{fetch('/consult.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:fs}),keepalive:true});}catch(x){}},true);
 })();
 </script>
-<script src="/assets/mdw-consult.v3.js" defer></script><script src="/assets/mdw-site.v7.js" defer></script></body>
+<script src="/assets/mdw-consult.v3.js" defer></script><script src="/assets/mdw-site.v8.js" defer></script></body>
 </html>
