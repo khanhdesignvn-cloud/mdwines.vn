@@ -1,6 +1,7 @@
 (function(){
 var SL=[{s:'/assets/media/hero-slide-1.webp',a:'Bộ sưu tập rượu vang MD Wines giữa đồi nho South Australia',mx:'100%'},
-        {s:'/assets/media/hero-slide-2.webp',a:'Sáu chai vang đỏ MD Wines trên bệ đá giữa vườn nho',mx:'50%'}];
+        {s:'/assets/media/hero-slide-2.webp',a:'Sáu chai vang đỏ MD Wines trên bệ đá giữa vườn nho',mx:'50%'},
+        {logo:1,a:'MD Wines — Taste the exceptional'}];
 var T=6000,timer=null,idx=0,root=null,sl=[],dots=[];
 function show(n){
   idx=(n+SL.length)%SL.length;
@@ -13,6 +14,7 @@ function build(bg){
   root=bg;sl=[];dots=[];
   SL.forEach(function(o,i){
     var d=document.createElement('div');d.className='hs';
+    if(o.logo){d.classList.add('lg');d.innerHTML='<div class="lgi"><img src="/assets/media/mdwines-gold-logo-new_03006611_hq.webp" alt="'+o.a+'" width="300" height="300"><span>MD WINES</span><em>Taste the exceptional</em></div>';bg.appendChild(d);sl.push(d);return}
     var im=new Image();im.src=o.s;im.alt=o.a;im.decoding='async';im.draggable=false;
     if(i>0)im.loading='lazy';else im.fetchPriority='high';
     im.style.setProperty('--mx',o.mx);d.style.setProperty('--mx',o.mx);d.appendChild(im);bg.appendChild(d);sl.push(d);
@@ -57,7 +59,7 @@ document.addEventListener('mousemove',function(e){var c=e.target.closest&&e.targ
     if(u.origin!==location.origin)return;
     if(u.pathname===location.pathname&&u.search===location.search)return;
     if(h==='/tu-van-chon-vang'||a.matches('[href="/tu-van-chon-vang"]'))return;
-    var full=/^\/tin-tuc/.test(u.pathname)||/\.html?$/.test(u.pathname)||/^\/tin-tuc/.test(location.pathname)||/\.html?$/.test(location.pathname);
+    var full=/^\/(tin-tuc|cau-chuyen)/.test(u.pathname)||/\.html?$/.test(u.pathname)||/^\/(tin-tuc|cau-chuyen)/.test(location.pathname)||/\.html?$/.test(location.pathname);
     e.preventDefault();e.stopImmediatePropagation();
     cover(false);
     setTimeout(function(){

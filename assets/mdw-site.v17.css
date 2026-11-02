@@ -152,3 +152,14 @@
 .header.scrolled .brand-mark{height:88px!important}
 .header.scrolled{padding-top:6px!important;padding-bottom:6px!important}
 @media (max-width:760px){.header .brand-mark,.editorial-nav .brand-mark{translate:0 6px}.header.scrolled .brand-mark{height:62px!important}}
+/* Removed sections */
+.brand-story-bridge,section:has(.moments-grid){display:none!important}
+/* Journal rail: real logo instead of "MD" */
+.article-rail-mark span{display:block;width:96px;height:96px;border:0!important;border-radius:0!important;font-size:0!important;color:transparent!important;background:url(/assets/media/mdwines-gold-logo-new_03006611_hq.webp) center/contain no-repeat!important}
+/* Logo slide */
+.hero-bg .hs.lg{background:radial-gradient(circle at 70% 48%,#4a1520 0,#240a10 45%,#0d0506 85%);display:flex;align-items:center;justify-content:flex-end}
+.hero-bg .hs.lg .lgi{width:min(46%,560px);margin-right:6%;text-align:center;display:flex;flex-direction:column;align-items:center}
+.hero-bg .hs.lg img{width:min(300px,62%);height:auto;object-fit:contain;filter:drop-shadow(0 0 40px #e1c69a66)}
+.hero-bg .hs.lg span{margin-top:18px;font:600 clamp(28px,3.4vw,46px)/1 Fraunces,Georgia,serif;letter-spacing:.08em;color:#f5f0e7}
+.hero-bg .hs.lg em{margin-top:12px;font:600 12px/1 Fraunces,Georgia,serif;letter-spacing:.34em;text-transform:uppercase;color:#d4af5f;font-style:normal}
+@media (max-width:760px){.hero-bg .hs.lg{justify-content:center;align-items:center}.hero-bg .hs.lg .lgi{width:80%;margin:0}.hero-bg .hs.lg img{width:150px}.hero-bg .hs.lg span{font-size:26px}}
