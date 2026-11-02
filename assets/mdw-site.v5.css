@@ -35,3 +35,5 @@
  body{padding-bottom:66px}
  .contact-rail-item span{font-size:11px}
 }
+.nav-links a.nav-cta{color:#f3d27f!important;opacity:1!important;-webkit-text-fill-color:#f3d27f;background:none!important;border-bottom:1px solid #d4af5f;font-weight:800}
+@media (min-width:761px){.hero-bg .hs img{object-position:50% 100%}}
