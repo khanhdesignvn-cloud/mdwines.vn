@@ -54,3 +54,8 @@
 }
 @media (min-width:761px) and (max-width:900px){.header .brand{margin:0 auto}}
 @media (max-width:900px){.header .nav-inner{position:relative;justify-content:center}.header .brand{margin:0 auto}.header .mobile-toggle{position:absolute;right:0;top:50%;transform:translateY(-50%)}}
+/* Readability on the beige story-bridge block */
+.brand-story-bridge>div h2{color:#2b0d12!important;-webkit-text-fill-color:#2b0d12}
+.brand-story-bridge>div h2 i{color:#8a5a12!important;-webkit-text-fill-color:#8a5a12}
+.brand-story-bridge>div .eyebrow,.brand-story-bridge>div>span{color:#6e4f10!important;-webkit-text-fill-color:#6e4f10;background:none!important;font-weight:800}
+.brand-story-bridge>div>p{color:#2e1216!important;font-size:17px}
