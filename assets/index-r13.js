@@ -517,6 +517,21 @@ d.jsxDEV("div",{className:"mdw-qty",role:"group","aria-label":"Số lượng",ch
 
 function mdwAddr(y){return["street","ward","province"].map(k=>String(y.get(k)??"").trim()).filter(Boolean).join(", ")}
 let mdwAddrData=null,mdwAddrP=null;
+function MdwCombo({name,placeholder,options,value,onChange,disabled,inputRef,noKb}){
+const [open,setOpen]=E.useState(!1),wr=E.useRef(null);
+const fold=t=>String(t).normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d").replace(/Đ/g,"D").toLowerCase();
+const exact=options.some(o=>o.toLowerCase()===value.trim().toLowerCase());
+const q=fold(value.trim());
+const list=exact||!q?options:options.filter(o=>fold(o).includes(q));
+const pick=o=>{onChange(o);setOpen(!1);const el=wr.current&&wr.current.querySelector("input");if(el)el.blur()};
+return d.jsxDEV("div",{className:"mdw-combo",ref:wr,children:[
+d.jsxDEV("input",{ref:inputRef,name,className:"form-field",placeholder,autoComplete:"off",required:!0,disabled,value,inputMode:noKb?"none":"text",role:"combobox","aria-expanded":open,
+onChange:e=>{onChange(e.target.value);setOpen(!0)},
+onFocus:()=>{setOpen(!0);setTimeout(()=>{try{wr.current&&wr.current.scrollIntoView({block:"center",behavior:"smooth"})}catch(e){}},280)},
+onClick:()=>setOpen(!0),
+onBlur:()=>setTimeout(()=>setOpen(!1),180)},"i",!1),
+d.jsxDEV("span",{className:"mdw-chev","aria-hidden":"true",children:"▾"},"c",!1),
+open&&!disabled?d.jsxDEV("ul",{className:"mdw-dd",role:"listbox",children:list.length?list.map(o=>d.jsxDEV("li",{role:"option",className:o.toLowerCase()===value.trim().toLowerCase()?"on":"",onMouseDown:e=>e.preventDefault(),onClick:()=>pick(o),children:o},o,!1)):d.jsxDEV("li",{className:"none",children:"Không có kết quả"},"n",!1)},"u",!1):null]},void 0,!0)}
 function MdwAddr(){
 const [dt,setDt]=E.useState(mdwAddrData),[pv,setPv]=E.useState(""),[wd,setWd]=E.useState("");
 E.useEffect(()=>{if(dt)return;(mdwAddrP||(mdwAddrP=fetch("/assets/vn-addr.v1.json").then(r=>r.json()))).then(j=>{mdwAddrData=j;setDt(j)}).catch(()=>{})},[]);
@@ -524,12 +539,10 @@ const pr=dt?dt.p.find(x=>x[1].toLowerCase()===pv.trim().toLowerCase()):null;
 const ws=pr&&dt?dt.w[pr[0]]||[]:[];
 const wOk=!!ws.find(x=>x.toLowerCase()===wd.trim().toLowerCase());
 const ref1=E.useRef(null),ref2=E.useRef(null);
-E.useEffect(()=>{if(ref1.current)ref1.current.setCustomValidity(!dt||pr?"":"Vui lòng chọn Tỉnh/Thành phố trong danh sách gợi ý.");if(ref2.current)ref2.current.setCustomValidity(!dt||!pr||wOk?"":"Vui lòng chọn Phường/Xã trong danh sách gợi ý.")},[dt,pr,wOk,pv,wd]);
+E.useEffect(()=>{if(ref1.current)ref1.current.setCustomValidity(!dt||pr?"":"Vui lòng chọn Tỉnh/Thành phố trong danh sách.");if(ref2.current)ref2.current.setCustomValidity(!dt||!pr||wOk?"":"Vui lòng chọn Phường/Xã trong danh sách.")},[dt,pr,wOk,pv,wd]);
 return d.jsxDEV(d.Fragment,{children:[
-d.jsxDEV("input",{ref:ref1,name:"province",className:"form-field",placeholder:"Tỉnh / Thành phố (gõ để gợi ý)",list:"mdw-dl-p",autoComplete:"off",required:!0,value:pv,onChange:e=>{setPv(e.target.value);setWd("")}},"p",!1),
-d.jsxDEV("datalist",{id:"mdw-dl-p",children:(dt?dt.p:[]).map(x=>d.jsxDEV("option",{value:x[1]},x[0],!1))},"dp",!1),
-d.jsxDEV("input",{ref:ref2,name:"ward",className:"form-field",placeholder:pr?"Phường / Xã (gõ để gợi ý)":"Chọn Tỉnh / Thành phố trước",list:"mdw-dl-w",autoComplete:"off",required:!0,disabled:!pr,value:wd,onChange:e=>setWd(e.target.value)},"w",!1),
-d.jsxDEV("datalist",{id:"mdw-dl-w",children:ws.map(x=>d.jsxDEV("option",{value:x},x,!1))},"dw",!1),
+d.jsxDEV(MdwCombo,{name:"province",placeholder:"Tỉnh / Thành phố",options:dt?dt.p.map(x=>x[1]):[],value:pv,onChange:v=>{setPv(v);setWd("")},inputRef:ref1,noKb:!0},"p",!1),
+d.jsxDEV(MdwCombo,{name:"ward",placeholder:pr?"Phường / Xã":"Chọn Tỉnh / Thành phố trước",options:ws,value:wd,onChange:setWd,disabled:!pr,inputRef:ref2},"w",!1),
 d.jsxDEV("textarea",{name:"street",className:"form-field form-full",placeholder:"Số nhà, tên đường, thôn/tổ dân phố",required:!0,rows:2},"s",!1)]},void 0,!0)}
 function MdwDone({orderRef:ref,onClose:close}){
 const o=window.__mdwOrder||{items:[],name:"",phone:"",address:""};

@@ -24,3 +24,11 @@
 .mdw-act.zalo{background:linear-gradient(135deg,#d9b25f,#b8832f);color:#1a0d10;border-color:transparent}
 .mdw-act.ghost{border-color:rgba(217,178,95,.35);color:#cdb9a5}
 .mdw-done-msg{margin:0;color:#e7c777;font-size:.9rem}
+.mdw-combo{position:relative;min-width:0}
+.mdw-combo>input{width:100%;box-sizing:border-box;padding-right:28px}
+.mdw-chev{position:absolute;right:6px;top:50%;transform:translateY(-50%);color:#c79a45;pointer-events:none;font-size:14px}
+.mdw-dd{position:absolute;left:0;right:0;top:100%;z-index:60;margin:2px 0 0;padding:4px 0;list-style:none;max-height:230px;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#241116;border:1px solid #c79a45;box-shadow:0 14px 30px rgba(0,0,0,.6)}
+.mdw-dd li{padding:13px 14px;color:#f1e3c8;font-size:15px;line-height:1.25;cursor:pointer;border-bottom:1px solid rgba(217,178,95,.12);touch-action:manipulation}
+.mdw-dd li:active,.mdw-dd li:hover{background:rgba(199,154,69,.22)}
+.mdw-dd li.on{color:#f0d58a;font-weight:700}
+.mdw-dd li.none{color:#8d7b6c;cursor:default}
