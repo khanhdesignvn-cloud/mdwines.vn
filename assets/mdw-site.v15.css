@@ -147,3 +147,8 @@
 .editorial-header{padding-top:4px!important;padding-bottom:4px!important}
 @media (min-width:1101px){.header .nav-inner{min-height:88px}}
 @media (max-width:760px){.header .brand-mark,.editorial-nav .brand-mark{height:62px!important}}
+/* Logo optically centred on wordmark; header unchanged on scroll */
+.header .brand-mark,.editorial-nav .brand-mark{translate:0 14px}
+.header.scrolled .brand-mark{height:88px!important}
+.header.scrolled{padding-top:6px!important;padding-bottom:6px!important}
+@media (max-width:760px){.header .brand-mark,.editorial-nav .brand-mark{translate:0 10px}.header.scrolled .brand-mark{height:62px!important}}
