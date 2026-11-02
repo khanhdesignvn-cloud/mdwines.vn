@@ -125,3 +125,11 @@
 .editorial-nav .brand-type span{font-size:12px!important}
 .editorial-header{padding-top:8px!important;padding-bottom:8px!important}
 @media (max-width:760px){.editorial-nav .brand-mark{height:56px!important}.editorial-nav .brand-type{font-size:17px!important}}
+/* Logo +30%, aligned with wordmark, no overlap */
+.header .brand-mark,.editorial-nav .brand-mark{height:96px!important;width:auto!important;margin-right:0!important}
+.header.scrolled .brand-mark{height:72px!important}
+.header .brand,.editorial-nav .brand{gap:18px!important;align-items:center!important}
+.header .brand .brand-mark,.editorial-nav .brand .brand-mark{margin-right:0!important}
+.header .brand-type,.editorial-nav .brand-type{display:flex;align-items:baseline;line-height:1;padding-top:2px}
+@media (min-width:1101px){.header .nav-inner{min-height:96px}}
+@media (max-width:760px){.header .brand-mark,.editorial-nav .brand-mark{height:68px!important}.header .brand,.editorial-nav .brand{gap:12px!important}}
