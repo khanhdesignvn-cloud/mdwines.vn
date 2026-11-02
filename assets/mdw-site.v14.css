@@ -139,3 +139,11 @@
 .header .brand,.editorial-nav .brand{gap:2px!important}
 @media (min-width:1101px){.header .nav-inner{min-height:125px}}
 @media (max-width:760px){.header .brand-mark,.editorial-nav .brand-mark{height:84px!important}.header .brand,.editorial-nav .brand{gap:2px!important}}
+/* Header height -30% */
+.header .brand-mark,.editorial-nav .brand-mark{height:88px!important}
+.header.scrolled .brand-mark{height:66px!important}
+.header{padding-top:6px!important;padding-bottom:6px!important}
+.header.scrolled{padding-top:4px!important;padding-bottom:4px!important}
+.editorial-header{padding-top:4px!important;padding-bottom:4px!important}
+@media (min-width:1101px){.header .nav-inner{min-height:88px}}
+@media (max-width:760px){.header .brand-mark,.editorial-nav .brand-mark{height:62px!important}}
