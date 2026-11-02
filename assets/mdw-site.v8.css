@@ -95,3 +95,4 @@
 @media (max-width:1100px){.shop-grid{grid-template-columns:repeat(2,1fr)!important}.shop-wine-card:nth-child(3n){border-right:1px solid #c49a6140!important}.shop-wine-card:nth-child(2n){border-right:0!important}}
 @media (max-width:680px){.shop-grid{grid-template-columns:1fr!important;display:grid!important}.shop-wine-card{border-right:0!important;padding:22px 20px 24px!important}.shop-bottle-stage{height:300px}.shop-bottle-stage img{max-height:270px!important}.wine-name,.wine-card-story{min-height:0}}
 @media (hover:none){.shop-wine-card:before{display:none}}
+.shop-grid{grid-auto-rows:1fr}
