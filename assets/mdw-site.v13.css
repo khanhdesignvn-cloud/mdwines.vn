@@ -133,3 +133,9 @@
 .header .brand-type,.editorial-nav .brand-type{display:flex;align-items:baseline;line-height:1;padding-top:2px}
 @media (min-width:1101px){.header .nav-inner{min-height:96px}}
 @media (max-width:760px){.header .brand-mark,.editorial-nav .brand-mark{height:68px!important}.header .brand,.editorial-nav .brand{gap:12px!important}}
+/* Logo +30% again, tighter to wordmark */
+.header .brand-mark,.editorial-nav .brand-mark{height:125px!important}
+.header.scrolled .brand-mark{height:92px!important}
+.header .brand,.editorial-nav .brand{gap:2px!important}
+@media (min-width:1101px){.header .nav-inner{min-height:125px}}
+@media (max-width:760px){.header .brand-mark,.editorial-nav .brand-mark{height:84px!important}.header .brand,.editorial-nav .brand{gap:2px!important}}
