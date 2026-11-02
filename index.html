@@ -39,8 +39,8 @@ function apply(){var p=location.pathname.replace(/\/+$/,'')||'/';var m=T[p]||(PR
 function later(){setTimeout(apply,350);}
 ['pushState','replaceState'].forEach(function(k){var o=history[k];history[k]=function(){var r=o.apply(this,arguments);later();return r;};});
 window.addEventListener('popstate',later);window.addEventListener('load',later);
-document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelectorAll||(f.classList&&f.classList.contains('direct-order-form')))return;var fs=[];f.querySelectorAll('input,textarea').forEach(function(i){if(i.type==='hidden'||i.type==='submit'||i.type==='button')return;fs.push({label:i.placeholder||i.name||i.type,value:i.value});});if(!fs.length)return;try{fetch('/consult.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:fs}),keepalive:true});}catch(x){}},true);
+document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelectorAll||(f.classList&&f.classList.contains('direct-order-form'))||(f.closest&&f.closest('#mdwc')))return;var fs=[];f.querySelectorAll('input,textarea').forEach(function(i){if(i.type==='hidden'||i.type==='submit'||i.type==='button')return;fs.push({label:i.placeholder||i.name||i.type,value:i.value});});if(!fs.length)return;try{fetch('/consult.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:fs}),keepalive:true});}catch(x){}},true);
 })();
 </script>
-<script src="/assets/mdw-consult.v2.js" defer></script><script src="/assets/mdw-site.v3.js" defer></script></body>
+<script src="/assets/mdw-consult.v3.js" defer></script><script src="/assets/mdw-site.v3.js" defer></script></body>
 </html>
