@@ -37,3 +37,20 @@
 }
 .nav-links a.nav-cta{color:#f3d27f!important;opacity:1!important;-webkit-text-fill-color:#f3d27f;background:none!important;border-bottom:1px solid #d4af5f;font-weight:800}
 @media (min-width:761px){.hero-bg .hs img{object-position:50% 100%}}
+/* Header -30% height, centred logo */
+.header .brand-mark{height:74px!important;width:auto!important}
+.header{padding-top:15px!important;padding-bottom:15px!important}
+.header.scrolled{padding-top:9px!important;padding-bottom:9px!important}
+.header.scrolled .brand-mark{height:56px!important}
+@media (max-width:760px){.header .brand-mark{height:60px!important}.header{padding-top:10px!important;padding-bottom:10px!important}}
+@media (min-width:1101px){
+ .header .nav-inner{position:relative;min-height:74px}
+ .header .nav-links{display:contents}
+ .header .nav-links>*{order:1}
+ .header .nav-links>*:nth-child(n+4){order:3}
+ .header .nav-links>*:nth-child(4){margin-left:auto}
+ .header .brand{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);order:2;z-index:2}
+ .header .nav-inner{justify-content:flex-start;gap:26px}
+}
+@media (min-width:761px) and (max-width:900px){.header .brand{margin:0 auto}}
+@media (max-width:900px){.header .nav-inner{position:relative;justify-content:center}.header .brand{margin:0 auto}.header .mobile-toggle{position:absolute;right:0;top:50%;transform:translateY(-50%)}}
