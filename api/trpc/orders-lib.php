@@ -124,6 +124,26 @@ function mdw_mail_raw($subjectText, $body) {
     return mdw_deliver($subject, $body, $headers);
 }
 
+// Gửi qua SMTP có xác thực nếu có file cấu hình ngoài web: <orders>/smtp.txt (dòng 1: tài khoản, dòng 2: mật khẩu)
+function mdw_smtp_send($user, $pass, $to, $subject, $headers, $body) {
+    $ctx = stream_context_create(['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]]);
+    $fp = @stream_socket_client('ssl://127.0.0.1:465', $en, $es, 12, STREAM_CLIENT_CONNECT, $ctx);
+    if (!$fp) { return false; }
+    stream_set_timeout($fp, 12);
+    $rd = function () use ($fp) { $r = ''; while (($l = fgets($fp, 515)) !== false) { $r .= $l; if (strlen($l) < 4 || $l[3] === ' ') break; } return $r; };
+    $cmd = function ($c, $ok) use ($fp, $rd) { if ($c !== null) fwrite($fp, $c . "\r\n"); $r = $rd(); return strpos($r, $ok) === 0; };
+    $okAll = $cmd(null, '220') && $cmd('EHLO mdwines.vn', '250') && $cmd('AUTH LOGIN', '334') && $cmd(base64_encode($user), '334') && $cmd(base64_encode($pass), '235')
+        && $cmd('MAIL FROM:<' . $user . '>', '250') && $cmd('RCPT TO:<' . $to . '>', '250') && $cmd('DATA', '354');
+    if ($okAll) {
+        $msg = 'To: ' . $to . "\r\nSubject: " . $subject . "\r\n" . $headers . "\r\n\r\n" . $body;
+        $msg = preg_replace('/^\./m', '..', $msg);
+        fwrite($fp, $msg . "\r\n.\r\n");
+        $okAll = strpos($rd(), '250') === 0;
+    }
+    @fwrite($fp, "QUIT\r\n"); @fclose($fp);
+    return $okAll;
+}
+
 function mdw_deliver($subject, $body, $headers) {
     $host = preg_replace('/^www\./', '', isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'mdwines.vn');
     $host = preg_replace('/[^a-z0-9.\-]/i', '', $host);
@@ -131,9 +151,17 @@ function mdw_deliver($subject, $body, $headers) {
     $headers .= "\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64"
         . "\r\nMessage-ID: <" . bin2hex(random_bytes(8)) . "@" . $host . ">"
         . "\r\nDate: " . date('r');
-    $ok = @mail(MDW_OWNER_EMAIL, $subject, chunk_split(base64_encode($body)), $headers, '-f no-reply@' . $host);
+    $ok = false; $via = 'mail';
+    $cfg = @file($dir0 = mdw_orders_dir() . '/smtp.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    if ($cfg && count($cfg) >= 2) {
+        $su = trim($cfg[0]);
+        $h2 = preg_replace('/^From:[^\r\n]*/mi', 'From: MD Wines <' . $su . '>', $headers);
+        $ok = mdw_smtp_send($su, trim($cfg[1]), MDW_OWNER_EMAIL, $subject, $h2, chunk_split(base64_encode($body)));
+        $via = 'smtp';
+    }
+    if (!$ok) { $via = 'mail'; $ok = @mail(MDW_OWNER_EMAIL, $subject, chunk_split(base64_encode($body)), $headers, '-f no-reply@' . $host); }
     if (!$ok) { $ok = @mail(MDW_OWNER_EMAIL, $subject, chunk_split(base64_encode($body)), $headers); }
     $dir = mdw_orders_dir();
-    @file_put_contents($dir . '/mail.log', date('c') . ' ' . ($ok ? 'SENT' : 'FAIL') . ' to=' . MDW_OWNER_EMAIL . ' ' . mb_substr(preg_replace('/\s+/', ' ', $body), 0, 60) . "\n", FILE_APPEND | LOCK_EX);
+    @file_put_contents($dir . '/mail.log', date('c') . ' ' . ($ok ? 'SENT' : 'FAIL') . '/' . $via . ' to=' . MDW_OWNER_EMAIL . ' ' . mb_substr(preg_replace('/\s+/', ' ', $body), 0, 60) . "\n", FILE_APPEND | LOCK_EX);
     return $ok;
 }
