@@ -59,3 +59,39 @@
 .brand-story-bridge>div h2 i{color:#8a5a12!important;-webkit-text-fill-color:#8a5a12}
 .brand-story-bridge>div .eyebrow,.brand-story-bridge>div>span{color:#6e4f10!important;-webkit-text-fill-color:#6e4f10;background:none!important;font-weight:800}
 .brand-story-bridge>div>p{color:#2e1216!important;font-size:17px}
+/* ===== Collection: 3 x 2 balanced grid + premium hover ===== */
+.collection-layout{grid-template-columns:1fr!important;min-height:0!important}
+.shop-grid{grid-template-columns:repeat(3,1fr)!important;align-items:stretch!important;gap:0!important;border:1px solid #c49a6159!important;border-bottom:0!important;background:#0e0507}
+.shop-wine-card{position:relative;isolation:isolate;min-height:0!important;padding:26px 30px 30px!important;border:0!important;border-right:1px solid #c49a6140!important;border-bottom:1px solid #c49a6140!important;display:flex;flex-direction:column;overflow:hidden;transition:background .4s,transform .4s cubic-bezier(.23,1,.32,1)}
+.shop-wine-card:nth-child(3n){border-right:0!important}
+.shop-wine-card>*{position:relative;z-index:2}
+.shop-wine-card:before{content:"";position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .45s;background:radial-gradient(420px circle at var(--sx,50%) var(--sy,38%),#d4af5f2e,#d4af5f0d 38%,transparent 66%)}
+.shop-wine-card:after{content:"";position:absolute;inset:12px;z-index:1;pointer-events:none;border:1px solid #d4af5f00;transition:border-color .45s,inset .45s cubic-bezier(.23,1,.32,1)}
+.shop-wine-card:hover,.shop-wine-card:focus-visible{background:#1a0a0e;box-shadow:none!important}
+.shop-wine-card:hover:before,.shop-wine-card:focus-visible:before{opacity:1}
+.shop-wine-card:hover:after,.shop-wine-card:focus-visible:after{border-color:#d4af5f8c;inset:8px}
+.shop-card-head{font-size:13px}.wine-number{font-size:15px;letter-spacing:.12em}
+.shop-card-status{font-size:10px!important}
+.shop-bottle-stage{flex:none!important;height:350px;max-height:none!important;padding:18px 12px 10px!important;place-items:center!important;overflow:visible!important;position:relative}
+.shop-bottle-stage:before{content:"";position:absolute;left:50%;bottom:6px;width:52%;height:16px;border-radius:50%;background:radial-gradient(#000c,transparent 70%);transform:translateX(-50%);transition:transform .5s,opacity .5s;opacity:.7}
+.shop-bottle-stage img{max-height:318px!important;filter:drop-shadow(0 18px 22px #0009);transition:transform .6s cubic-bezier(.23,1,.32,1),filter .6s!important}
+.shop-wine-card:hover .shop-bottle-stage img{transform:translateY(-14px) scale(1.06) rotate(-1.2deg)!important;filter:drop-shadow(0 30px 30px #000b) drop-shadow(0 0 26px #d4af5f40)}
+.shop-wine-card:hover .shop-bottle-stage:before{transform:translateX(-50%) scale(.82);opacity:.45}
+.wine-meta{flex:1;display:flex;flex-direction:column;border-top:1px solid #c49a6154;padding-top:18px!important;transition:border-color .4s}
+.shop-wine-card:hover .wine-meta{border-color:#d4af5f99}
+.wine-place{font-size:10.5px!important}
+.wine-name{font-size:27px!important;min-height:2.1em;margin:9px 0 10px!important;display:block}
+.wine-card-story{font-size:13.5px!important;line-height:1.6!important;max-width:none!important;min-height:4.8em;margin:0 0 16px!important;color:#f5f0e7b8!important}
+.wine-specs{margin-top:auto!important;padding-top:13px!important}
+.wine-specs dt{font-size:9px!important}.wine-specs dd{font-size:12px!important}
+.shop-card-bottom{padding-top:6px}
+.shop-price{font-size:30px!important;transition:text-shadow .4s}.shop-price small{font-size:10px!important}
+.shop-wine-card:hover .shop-price{text-shadow:0 0 22px #d4af5f66}
+.card-detail-link{font-size:12px!important;transition:letter-spacing .35s,color .3s}
+.card-detail-link svg{transition:transform .35s}
+.shop-wine-card:hover .card-detail-link{color:#f3d27f;letter-spacing:.2em}
+.shop-wine-card:hover .card-detail-link svg{transform:translate(4px,-4px)}
+.collection-image{min-height:380px!important}
+@media (max-width:1100px){.shop-grid{grid-template-columns:repeat(2,1fr)!important}.shop-wine-card:nth-child(3n){border-right:1px solid #c49a6140!important}.shop-wine-card:nth-child(2n){border-right:0!important}}
+@media (max-width:680px){.shop-grid{grid-template-columns:1fr!important;display:grid!important}.shop-wine-card{border-right:0!important;padding:22px 20px 24px!important}.shop-bottle-stage{height:300px}.shop-bottle-stage img{max-height:270px!important}.wine-name,.wine-card-story{min-height:0}}
+@media (hover:none){.shop-wine-card:before{display:none}}

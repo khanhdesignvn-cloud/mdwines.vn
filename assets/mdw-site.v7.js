@@ -32,3 +32,6 @@ scan();
 })();
 // Điều hướng đầy đủ sang trang tĩnh /tin-tuc/
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="/tin-tuc"]');if(!a||e.ctrlKey||e.metaKey||e.shiftKey||e.button)return;e.preventDefault();e.stopImmediatePropagation();location.href=a.getAttribute('href')},true);
+
+// Spotlight theo chuột trên thẻ sản phẩm
+document.addEventListener('mousemove',function(e){var c=e.target.closest&&e.target.closest('.shop-wine-card');if(!c)return;var r=c.getBoundingClientRect();c.style.setProperty('--sx',(e.clientX-r.left)+'px');c.style.setProperty('--sy',(e.clientY-r.top)+'px')},{passive:true});
