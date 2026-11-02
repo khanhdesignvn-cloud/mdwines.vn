@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="/assets/index-r6.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-v2613.css">
+    <script type="module" crossorigin src="/assets/index-r7.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-v2614.css">
     
   <link rel="canonical" href="https://mdwines.vn/" />
 <meta name="theme-color" content="#120708" />
@@ -42,5 +42,5 @@ window.addEventListener('popstate',later);window.addEventListener('load',later);
 document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.querySelectorAll||(f.classList&&f.classList.contains('direct-order-form')))return;var fs=[];f.querySelectorAll('input,textarea').forEach(function(i){if(i.type==='hidden'||i.type==='submit'||i.type==='button')return;fs.push({label:i.placeholder||i.name||i.type,value:i.value});});if(!fs.length)return;try{fetch('/consult.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:fs}),keepalive:true});}catch(x){}},true);
 })();
 </script>
-</body>
+<script src="/assets/mdw-consult.v1.js" defer></script></body>
 </html>
