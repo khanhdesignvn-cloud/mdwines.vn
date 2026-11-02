@@ -1,5 +1,5 @@
 (function(){
-var SL=[{s:'/assets/media/hero-slide-1.webp',a:'Bộ sưu tập rượu vang MD Wines giữa đồi nho South Australia',mx:'52%'},
+var SL=[{s:'/assets/media/hero-slide-1.webp',a:'Bộ sưu tập rượu vang MD Wines giữa đồi nho South Australia',mx:'100%'},
         {s:'/assets/media/hero-slide-2.webp',a:'Sáu chai vang đỏ MD Wines trên bệ đá giữa vườn nho',mx:'50%'}];
 var T=6000,timer=null,idx=0,root=null,sl=[],dots=[];
 function show(n){
