@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /checkout.html
+Disallow: /save-order.php
+Disallow: /consult.php
+
+Sitemap: https://mdwines.vn/sitemap.xml

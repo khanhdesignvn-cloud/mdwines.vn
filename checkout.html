@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đặt Hàng – MD Wines</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #120705;
+    --bg2: #1c0d08;
+    --gold: #C9A96E;
+    --gold-light: #e0c48a;
+    --cream: #f5ede0;
+    --text: #d4c4b0;
+    --border: rgba(201,169,110,0.25);
+    --red: #8b1a1a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    font-size: 15px;
+  }
+
+  /* HEADER */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(18,7,5,0.95);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--cream); letter-spacing: 2px; text-decoration: none; }
+  .logo span { color: var(--gold); font-size: 12px; vertical-align: super; }
+  header a.back { color: var(--gold); font-size: 13px; text-decoration: none; opacity: 0.8; }
+  header a.back:hover { opacity: 1; }
+
+  /* STEPPER */
+  .stepper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 32px 20px 0;
+  }
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .step-num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; color: var(--text); opacity: 0.4;
+    transition: all 0.3s;
+  }
+  .step.active .step-num { border-color: var(--gold); color: var(--gold); opacity: 1; background: rgba(201,169,110,0.1); }
+  .step.done .step-num { border-color: var(--gold); background: var(--gold); color: var(--bg); opacity: 1; }
+  .step-label { font-size: 11px; opacity: 0.5; letter-spacing: 0.5px; }
+  .step.active .step-label, .step.done .step-label { opacity: 0.9; color: var(--gold); }
+  .step-line { width: 60px; height: 1px; background: var(--border); margin: 0 8px; margin-bottom: 22px; }
+  .step-line.done { background: var(--gold); }
+
+  /* MAIN CONTAINER */
+  .container { max-width: 640px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  /* PANELS */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; color: var(--cream);
+    margin-bottom: 6px;
+  }
+  .subtitle { font-size: 13px; opacity: 0.5; margin-bottom: 32px; letter-spacing: 0.3px; }
+
+  /* PRODUCT CARDS */
+  .products-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  @media(max-width:520px){ .products-grid { grid-template-columns: 1fr; } }
+
+  .product-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 16px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    background: var(--bg2);
+  }
+  .product-card:hover { border-color: rgba(201,169,110,0.5); }
+  .product-card.selected { border-color: var(--gold); background: rgba(201,169,110,0.07); }
+  .product-card .check {
+    position: absolute; top: 12px; right: 12px;
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .product-card.selected .check { border-color: var(--gold); background: var(--gold); }
+  .product-card.selected .check::after { content: '✓'; font-size: 11px; color: var(--bg); font-weight: bold; }
+  .product-tag { font-size: 10px; letter-spacing: 1.5px; color: var(--gold); text-transform: uppercase; margin-bottom: 6px; }
+  .product-name { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--cream); margin-bottom: 4px; line-height: 1.35; }
+  .product-region { font-size: 11px; opacity: 0.45; margin-bottom: 12px; }
+  .product-price { font-size: 18px; color: var(--gold); font-weight: 500; }
+
+  /* QTY SELECTOR */
+  .qty-row {
+    display: flex; align-items: center; justify-content: space-between;
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 28px; background: var(--bg2);
+  }
+  .qty-label { font-size: 14px; }
+  .qty-controls { display: flex; align-items: center; gap: 16px; }
+  .qty-btn {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid var(--border); background: none;
+    color: var(--gold); font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .qty-btn:hover { border-color: var(--gold); background: rgba(201,169,110,0.1); }
+  .qty-num { font-size: 18px; color: var(--cream); min-width: 24px; text-align: center; }
+
+  /* TOTAL BAR */
+  .total-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-radius: 8px; background: rgba(201,169,110,0.05);
+    margin-bottom: 28px;
+  }
+  .total-bar .label { font-size: 13px; opacity: 0.6; }
+  .total-bar .amount { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--gold); }
+
+  /* FORM */
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 12px; letter-spacing: 0.8px; text-transform: uppercase; opacity: 0.6; margin-bottom: 8px; }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 13px 16px;
+    color: var(--cream);
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group textarea:focus {
+    border-color: rgba(201,169,110,0.6);
+  }
+  .form-group textarea { min-height: 80px; resize: vertical; }
+
+  /* BUTTONS */
+  .btn-primary {
+    width: 100%;
+    background: var(--gold);
+    color: var(--bg);
+    border: none;
+    border-radius: 6px;
+    padding: 16px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-light); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .btn-outline {
+    width: 100%; background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px; padding: 14px;
+    color: var(--text); font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer; transition: all 0.2s; margin-top: 10px;
+    letter-spacing: 0.5px;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ORDER SUMMARY (step 2 sidebar) */
+  .summary-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 20px;
+    margin-bottom: 28px;
+  }
+  .summary-box h4 { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.5; margin-bottom: 14px; }
+  .summary-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .summary-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .summary-row .name { font-size: 14px; color: var(--cream); }
+  .summary-row .val { font-size: 14px; color: var(--gold); white-space: nowrap; }
+  .summary-row.total { margin-top: 4px; }
+  .summary-row.total .name { font-weight: 500; color: var(--cream); }
+  .summary-row.total .val { font-size: 18px; font-family: 'Playfair Display', serif; }
+
+  /* QR STEP */
+  .qr-wrap {
+    text-align: center;
+    padding: 32px 20px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 24px;
+  }
+  .qr-wrap img { width: 220px; height: 220px; border-radius: 8px; background: white; }
+  .qr-bank { margin-top: 20px; }
+  .qr-bank .bank-name { font-size: 13px; opacity: 0.5; margin-bottom: 6px; letter-spacing: 0.5px; }
+  .qr-bank .stk { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--cream); letter-spacing: 2px; margin-bottom: 4px; }
+  .qr-bank .owner { font-size: 13px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px; }
+  .qr-amount { margin-top: 14px; font-size: 13px; opacity: 0.5; }
+  .qr-amount span { color: var(--gold); font-size: 20px; font-family: 'Playfair Display', serif; display: block; margin-top: 2px; }
+
+  .note-box {
+    background: rgba(201,169,110,0.06);
+    border: 1px solid rgba(201,169,110,0.2);
+    border-radius: 8px; padding: 16px 18px;
+    margin-bottom: 24px; font-size: 13px; line-height: 1.6; opacity: 0.8;
+  }
+  .note-box strong { color: var(--gold); }
+
+  /* SUCCESS */
+  .success-wrap { text-align: center; padding: 40px 20px; }
+  .success-icon { font-size: 56px; margin-bottom: 20px; }
+  .success-wrap h2 { font-size: 30px; margin-bottom: 10px; }
+  .success-wrap p { opacity: 0.6; line-height: 1.7; margin-bottom: 28px; }
+  .success-detail {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px; text-align: left; margin-bottom: 28px;
+  }
+  .success-detail .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .success-detail .row:last-child { border-bottom: none; }
+  .success-detail .row .lbl { opacity: 0.5; }
+  .success-detail .row .val { color: var(--cream); }
+
+  /* ERROR */
+  .field-error { color: #e07070; font-size: 12px; margin-top: 5px; }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">MD WINES <span>.vn</span></a>
+  <a href="/" class="back">← Quay lại</a>
+</header>
+
+<!-- STEPPER -->
+<div class="stepper">
+  <div class="step active" id="s1">
+    <div class="step-num">1</div>
+    <div class="step-label">Sản phẩm</div>
+  </div>
+  <div class="step-line" id="line1"></div>
+  <div class="step" id="s2">
+    <div class="step-num">2</div>
+    <div class="step-label">Thông tin</div>
+  </div>
+  <div class="step-line" id="line2"></div>
+  <div class="step" id="s3">
+    <div class="step-num">3</div>
+    <div class="step-label">Thanh toán</div>
+  </div>
+  <div class="step-line" id="line3"></div>
+  <div class="step" id="s4">
+    <div class="step-num">4</div>
+    <div class="step-label">Hoàn tất</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- STEP 1: Chọn sản phẩm -->
+  <div class="panel active" id="panel1">
+    <h2>Chọn rượu vang</h2>
+    <p class="subtitle">Tuyển chọn từ South Australia</p>
+
+    <div class="products-grid" id="productsGrid">
+      <!-- Rendered by JS -->
+    </div>
+
+    <div class="qty-row">
+      <span class="qty-label">Số lượng</span>
+      <div class="qty-controls">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <span class="qty-num" id="qtyNum">1</span>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+    </div>
+
+    <div class="total-bar">
+      <span class="label">Tạm tính</span>
+      <span class="amount" id="totalDisplay">—</span>
+    </div>
+
+    <button class="btn-primary" id="btnStep1" onclick="goStep(2)">TIẾP THEO →</button>
+  </div>
+
+  <!-- STEP 2: Thông tin giao hàng -->
+  <div class="panel" id="panel2">
+    <h2>Thông tin giao hàng</h2>
+    <p class="subtitle">Điền đầy đủ để chúng tôi liên hệ và giao hàng</p>
+
+    <div class="summary-box" id="summaryBox2"></div>
+
+    <div class="form-group">
+      <label>Họ và tên *</label>
+      <input type="text" id="inName" placeholder="Nguyễn Văn A">
+      <div class="field-error" id="errName"></div>
+    </div>
+    <div class="form-group">
+      <label>Số điện thoại *</label>
+      <input type="tel" id="inPhone" placeholder="0901 234 567">
+      <div class="field-error" id="errPhone"></div>
+    </div>
+    <div class="form-group">
+      <label>Địa chỉ giao hàng *</label>
+      <input type="text" id="inAddress" placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố">
+      <div class="field-error" id="errAddress"></div>
+    </div>
+    <div class="form-group">
+      <label>Ghi chú (tuỳ chọn)</label>
+      <textarea id="inNote" placeholder="Giao buổi chiều, để trước cửa,..."></textarea>
+    </div>
+
+    <button class="btn-primary" onclick="goStep(3)">XEM MÃ THANH TOÁN →</button>
+    <button class="btn-outline" onclick="goStep(1)">← Quay lại</button>
+  </div>
+
+  <!-- STEP 3: QR thanh toán -->
+  <div class="panel" id="panel3">
+    <h2>Quét mã thanh toán</h2>
+    <p class="subtitle">Chuyển khoản đúng số tiền, chúng tôi xác nhận và giao hàng</p>
+
+    <div class="qr-wrap">
+      <img id="qrImg" src="" alt="QR thanh toán">
+      <div class="qr-bank">
+        <div class="bank-name">VIETCOMBANK</div>
+        <div class="stk">1045 9997 89</div>
+        <div class="owner">Công Ty TNHH Minh Ngọc Phúc</div>
+      </div>
+      <div class="qr-amount">
+        Số tiền chuyển khoản
+        <span id="qrAmount">—</span>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <strong>Nội dung chuyển khoản:</strong> <span id="transferNote">—</span><br><br>
+      Sau khi thanh toán, bấm nút <strong>"Tôi đã chuyển khoản"</strong> bên dưới. Chúng tôi sẽ liên hệ xác nhận qua số điện thoại trong vòng <strong>30 phút</strong>.
+    </div>
+
+    <div class="summary-box" id="summaryBox3"></div>
+
+    <button class="btn-primary" id="btnConfirm" onclick="confirmPayment()">✓ TÔI ĐÃ CHUYỂN KHOẢN</button>
+    <button class="btn-outline" onclick="goStep(2)">← Chỉnh thông tin</button>
+  </div>
+
+  <!-- STEP 4: Thành công -->
+  <div class="panel" id="panel4">
+    <div class="success-wrap">
+      <div class="success-icon">🍷</div>
+      <h2>Đặt hàng thành công!</h2>
+      <p>Cảm ơn bạn D�ã tin tưởng MD Wines.<br>Chúng tôi sẽ liên hệ xác nhận đơn hàng trong vòng 30 phút.</p>
+
+      <div class="success-detail" id="successDetail"></div>
+
+      <button class="btn-primary" onclick="location.href='/'">← VỀ TRANG CHỦ</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const PRODUCTS = [
+  { id: 1, tag: 'Rượu Vang Đỏ · South Australia', name: 'MD Cabernet Sauvignon 2022', region: 'South Australia', price: 550000 },
+  { id: 2, tag: 'Rượu Vang Đỏ · South Australia', name: 'MD Shiraz 2021', region: 'South Australia', price: 550000 },
+  { id: 3, tag: 'Rượu Vang Đỏ · Coonawarra', name: 'MD 90 Cabernet Sauvignon Coonawarra 2021', region: 'Coonawarra', price: 900000 },
+  { id: 4, tag: 'Rượu Vang Đỏ · Clare Valley', name: 'MD The Quietude 04', region: 'Clare Valley', price: 950000 },
+  { id: 5, tag: 'Rượu Vang Đỏ · Barossa Valley', name: 'MD 77 Shiraz Barossa Valley 2020', region: 'Barossa Valley', price: 1300000 },
+  { id: 6, tag: 'Rượu Vang Đỏ · Greenock, Barossa Valley', name: 'GHE 1575 Return 2022', region: 'Greenock, Barossa Valley', price: 1500000 },
+];
+
+let selectedId = null;
+let qty = 1;
+
+function fmt(n) { return n.toLocaleString('vi-VN') + ' ₫'; }
+
+function renderProducts() {
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = PRODUCTS.map(p => `
+    <div class="product-card ${selectedId === p.id ? 'selected' : ''}" onclick="selectProduct(${p.id})">
+      <div class="check"></div>
+      <div class="product-tag">${p.tag}</div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-region">${p.region}</div>
+      <div class="product-price">${fmt(p.price)}</div>
+    </div>
+  `).join('');
+  updateTotal();
+}
+
+function selectProduct(id) {
+  selectedId = id;
+  renderProducts();
+}
+
+function changeQty(d) {
+  qty = Math.max(1, qty + d);
+  document.getElementById('qtyNum').textContent = qty;
+  updateTotal();
+}
+
+function updateTotal() {
+  const p = PRODUCTS.find(x => x.id === selectedId);
+  if (p) {
+    document.getElementById('totalDisplay').textContent = fmt(p.price * qty);
+    document.getElementById('btnStep1').disabled = false;
+  } else {
+    document.getElementById('totalDisplay').textContent = '—';
+    document.getElementById('btnStep1').disabled = true;
+  }
+}
+
+function getTotal() {
+  const p = PRODUCTS.find(x => x.id === selectedId);
+  return p ? p.price * qty : 0;
+}
+
+function getProduct() { return PRODUCTS.find(x => x.id === selectedId); }
+
+function summaryHTML() {
+  const p = getProduct();
+  if (!p) return '';
+  return `
+    <h4>Đơn hàng của bạn</h4>
+    <div class="summary-row">
+      <span class="name">${p.name}</span>
+      <span class="val">${fmt(p.price)}</span>
+    </div>
+    <div class="summary-row">
+      <span class="name">Số lượng</span>
+      <span class="val">× ${qty}</span>
+    </div>
+    <div class="summary-row total">
+      <span class="name">Tổng cộng</span>
+      <span class="val">${fmt(getTotal())}</span>
+    </div>
+  `;
+}
+
+function goStep(n) {
+  if (n === 2) {
+    if (!selectedId) { alert('Vui lòng chọn sản phẩm.'); return; }
+    document.getElementById('summaryBox2').innerHTML = summaryHTML();
+  }
+  if (n === 3) {
+    // validate
+    let ok = true;
+    const name = document.getElementById('inName').value.trim();
+    const phone = document.getElementById('inPhone').value.trim();
+    const addr = document.getElementById('inAddress').value.trim();
+    document.getElementById('errName').textContent = '';
+    document.getElementById('errPhone').textContent = '';
+    document.getElementById('errAddress').textContent = '';
+    if (!name) { document.getElementById('errName').textContent = 'Vui lòng nhập họ tên.'; ok = false; }
+    if (!phone || !/^[0-9]{9,11}$/.test(phone.replace(/\s/g,''))) { document.getElementById('errPhone').textContent = 'Số điện thoại không hợp lệ.'; ok = false; }
+    if (!addr) { document.getElementById('errAddress').textContent = 'Vui lòng nhập địa chỉ.'; ok = false; }
+    if (!ok) return;
+
+    // Build QR
+    const total = getTotal();
+    const note = `MD Wines ${phone.replace(/\s/g,'')}`;
+    const qrUrl = `https://img.vietqr.io/image/VCB-1045999789-compact2.png?amount=${total}&addInfo=${encodeURIComponent(note)}&accountName=CONG%20TY%20TNHH%20MINH%20NGOC%20PHUC`;
+    document.getElementById('qrImg').src = qrUrl;
+    document.getElementById('qrAmount').textContent = fmt(total);
+    document.getElementById('transferNote').textContent = note;
+    document.getElementById('summaryBox3').innerHTML = summaryHTML();
+  }
+
+  // Update stepper
+  [1,2,3,4].forEach(i => {
+    const s = document.getElementById('s'+i);
+    s.classList.remove('active','done');
+    if (i < n) s.classList.add('done');
+    if (i === n) s.classList.add('active');
+    if (i < 4) {
+      const l = document.getElementById('line'+i);
+      l.classList.toggle('done', i < n);
+    }
+  });
+
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel'+n).classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function confirmPayment() {
+  const btn = document.getElementById('btnConfirm');
+  btn.disabled = true;
+  btn.textContent = 'Đang xử lý...';
+
+  const p = getProduct();
+  const name = document.getElementById('inName').value.trim();
+  const phone = document.getElementById('inPhone').value.trim();
+  const addr = document.getElementById('inAddress').value.trim();
+  const note = document.getElementById('inNote').value.trim();
+  const total = getTotal();
+
+  const data = {
+    name, phone, address: addr, note,
+    product: p.name,
+    qty, price: p.price, total
+  };
+
+  fetch('/save-order.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
+  })
+  .then(r => r.json())
+  .then(res => {
+      if (res && res.ok) { showSuccess(data); }
+      else { throw new Error((res && res.message) || 'Không lưu được đơn'); }
+    })
+    .catch(err => {
+      btn.disabled = false;
+      btn.textContent = 'Thử gửi lại';
+      alert('Chưa gửi được yêu cầu: ' + (err && err.message ? err.message : 'lỗi kết nối') + '. Vui lòng thử lại hoặc gọi 0913 485 279.');
+    });
+}
+
+function showSuccess(d) {
+  document.getElementById('successDetail').innerHTML = `
+    <div class="row"><span class="lbl">Sản phẩm</span><span class="val">${d.product}</span></div>
+    <div class="row"><span class="lbl">Số lượng</span><span class="val">${d.qty} chai</span></div>
+    <div class="row"><span class="lbl">Tổng tiền</span><span class="val">${fmt(d.total)}</span></div>
+    <div class="row"><span class="lbl">Hí ngưởi</span><span class="val">${d.name}</span></div>
+    <div class="row"><span class="lbl">Điện thoại</span><span class="val">${d.phone}</span></div>
+    <div class="row"><span class="lbl">Giao đến</span><span class="val">${d.address}</span></div>
+  `;
+  goStep(4);
+}
+
+// Init
+renderProducts();
+document.getElementById('btnStep1').disabled = true;
+</script>
+
+</body>
+</html>
