@@ -41,7 +41,7 @@ document.addEventListener('mousemove',function(e){var c=e.target.closest&&e.targ
   var ov=document.createElement('div');ov.id='mdwt';
   ov.innerHTML='<img src="/assets/media/mdwines-gold-logo-new_03006611_hq.webp" alt="" width="72" height="72">';
   var st=document.createElement('style');
-  st.textContent='#mdwt{position:fixed;inset:0;z-index:2147482000;display:flex;align-items:center;justify-content:center;background:#120708;opacity:0;pointer-events:none;transition:opacity .28s ease}#mdwt.on{opacity:1;pointer-events:all}#mdwt img{width:72px;height:72px;object-fit:contain;opacity:0;transform:scale(.92);transition:opacity .3s .08s,transform .5s;filter:drop-shadow(0 0 18px #e1c69a66)}#mdwt.on img{opacity:1;transform:scale(1);animation:mdwp 1.3s ease-in-out infinite}@keyframes mdwp{50%{opacity:.55;transform:scale(.96)}}body{animation:mdwin .5s ease both}@keyframes mdwin{from{opacity:0}}@media(prefers-reduced-motion:reduce){#mdwt,#mdwt img{transition:none;animation:none!important}body{animation:none}}';
+  st.textContent='#mdwt{display:none!important;position:fixed;inset:0;z-index:2147482000;display:flex;align-items:center;justify-content:center;background:#120708;opacity:0;pointer-events:none;transition:opacity .28s ease}#mdwt.on{opacity:1;pointer-events:all}#mdwt img{width:72px;height:72px;object-fit:contain;opacity:0;transform:scale(.92);transition:opacity .3s .08s,transform .5s;filter:drop-shadow(0 0 18px #e1c69a66)}#mdwt.on img{opacity:1;transform:scale(1);animation:mdwp 1.3s ease-in-out infinite}@keyframes mdwp{50%{opacity:.55;transform:scale(.96)}}body{animation:mdwin .5s ease both}@keyframes mdwin{from{opacity:0}}@media(prefers-reduced-motion:reduce){#mdwt,#mdwt img{transition:none;animation:none!important}body{animation:none}}';
   function mount(){document.head.appendChild(st);document.body.appendChild(ov)}
   if(document.body)mount();else document.addEventListener('DOMContentLoaded',mount);
   var bypass=false,timer=null;
@@ -55,7 +55,7 @@ document.addEventListener('mousemove',function(e){var c=e.target.closest&&e.targ
     if(bypass||e.defaultPrevented||e.button||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
     var a=e.target.closest&&e.target.closest('a[href]');if(!a||a.target==='_blank'||a.hasAttribute('download'))return;
     var h=a.getAttribute('href');if(!h||h.charAt(0)==='#'||/^(mailto:|tel:|javascript:|https?:\/\/(?!mdwines\.vn))/i.test(h))return;
-    if(a.closest('#mdwc,#mdwage'))return;
+    if(a.closest('#mdwc,#mdwage,[data-pid]'))return;
     var u;try{u=new URL(h,location.href)}catch(x){return}
     if(u.origin!==location.origin)return;
     if(u.pathname===location.pathname&&u.search===location.search)return;

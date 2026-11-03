@@ -19,7 +19,7 @@ setTimeout(start,2500);
 window.addEventListener('pageshow',function(e){if(e.persisted)hide()});
 document.addEventListener('click',function(e){
  if(e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
- var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;
+ var a=e.target.closest&&e.target.closest('a[href]');if(!a||a.hasAttribute('data-pid'))return;
  if(a.target&&a.target!=='_self')return;if(a.hasAttribute('download'))return;
  var u;try{u=new URL(a.href,location.href)}catch(x){return}
  if(u.origin!==location.origin)return;
