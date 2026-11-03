@@ -35,3 +35,25 @@
 .mdw-dd li small.mdw-old{display:block;margin-top:3px;color:#a99886;font-size:12px;font-weight:400}
 
 html,:root,body{scroll-behavior:auto!important}
+
+.mdw-pop{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:16px;background:radial-gradient(circle at 50% 45%,#4a1a22cc 0%,#0b0406f2 70%);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:mdwpf .35s ease both}
+.mdw-pop-glow{position:absolute;left:50%;top:50%;width:min(900px,140vw);aspect-ratio:1;transform:translate(-50%,-50%);background:conic-gradient(from 0deg,#e8c66d00,#e8c66d33,#e8c66d00 20%,#e8c66d2b,#e8c66d00 45%,#e8c66d33,#e8c66d00 70%,#e8c66d2b,#e8c66d00);-webkit-mask:radial-gradient(circle,#000 0,#0000 68%);mask:radial-gradient(circle,#000 0,#0000 68%);animation:mdwspin 24s linear infinite;pointer-events:none}
+.mdw-pop-card{position:relative;width:min(540px,100%);max-height:92vh;overflow-y:auto;overscroll-behavior:contain;padding:34px 30px 28px;text-align:center;background:linear-gradient(165deg,#3a1219 0%,#231014 45%,#190a0d 100%);border:1px solid #f3d27f;box-shadow:0 0 0 1px #e8c66d40,0 0 60px #e8c66d55,0 0 140px #e8c66d33,0 30px 80px #000c;animation:mdwpc .6s cubic-bezier(.2,1.2,.3,1) both}
+.mdw-pop-card:before{content:"";position:absolute;inset:7px;border:1px solid #e8c66d40;pointer-events:none}
+.mdw-pop-x{position:absolute;top:12px;right:14px;z-index:2;width:36px;height:36px;border:1px solid #e8c66d66;border-radius:50%;background:#0006;color:#f6ead0;font-size:22px;line-height:1;cursor:pointer}
+.mdw-pop-x:hover{background:#e8c66d;color:#1a0a0f}
+.mdw-pop .mdw-done{padding:0;overflow:visible;align-items:center;text-align:center;gap:14px}
+.mdw-seal{width:84px;height:84px;display:grid;place-items:center;border-radius:50%;color:#1a0a0f;background:linear-gradient(135deg,#fbe8a6,#d9a63f 60%,#b8832f);box-shadow:0 0 0 6px #e8c66d2b,0 0 38px #e8c66dcc;animation:mdwseal .9s cubic-bezier(.2,1.4,.3,1) .15s both}
+.mdw-seal path{stroke-dasharray:60;stroke-dashoffset:60;animation:mdwdraw .6s ease .7s forwards}.mdw-seal circle{opacity:.0}
+.mdw-pop .eyebrow{color:#e8c66d;letter-spacing:.22em}
+.mdw-pop .mdw-done h3{font-size:clamp(1.9rem,7vw,2.5rem);background:linear-gradient(180deg,#fff3c4,#e8c66d 55%,#c79a45);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
+.mdw-pop .mdw-done-note{max-width:44ch}
+.mdw-pop .mdw-done-note b{display:inline-block;margin:0 2px;padding:1px 10px;border:1px solid #e8c66d80;background:#e8c66d1a;color:#ffe9a8;letter-spacing:.04em}
+.mdw-pop .mdw-done-list{width:100%;text-align:left;background:#0003}
+.mdw-pop .mdw-done-actions{width:100%}
+.mdw-pop .mdw-act.zalo{box-shadow:0 0 28px #e8c66d66;animation:mdwbtn 2.2s ease-in-out 1s infinite}
+@keyframes mdwpf{from{opacity:0}to{opacity:1}}@keyframes mdwpc{from{opacity:0;transform:translateY(24px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes mdwspin{to{transform:translate(-50%,-50%) rotate(360deg)}}@keyframes mdwseal{from{transform:scale(0) rotate(-40deg)}to{transform:none}}
+@keyframes mdwdraw{to{stroke-dashoffset:0}}@keyframes mdwbtn{50%{box-shadow:0 0 44px #f3d27fcc}}
+@media(max-width:520px){.mdw-pop{padding:10px}.mdw-pop-card{padding:30px 16px 20px}}
+@media(prefers-reduced-motion:reduce){.mdw-pop,.mdw-pop-card,.mdw-pop-glow,.mdw-seal,.mdw-pop .mdw-act.zalo{animation:none!important}.mdw-seal path{stroke-dashoffset:0;animation:none}}
