@@ -1,0 +1,37 @@
+.shop-card-bottom{flex-wrap:wrap;row-gap:12px}
+.shop-card-bottom .mdw-buy,.shop-card-bottom .mdw-qty{order:3;flex:0 0 auto;width:100%;height:50px;min-height:50px;box-sizing:border-box;align-self:stretch}
+.mdw-buy{background:linear-gradient(135deg,#d9b25f,#b8832f);color:#1a0d10;border:0;font:700 13px/1 inherit;font-family:inherit;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;padding:0 16px;touch-action:manipulation}
+.mdw-buy:active{filter:brightness(.9)}
+.mdw-qty{display:flex;align-items:stretch;border:1px solid #c79a45;background:rgba(0,0,0,.25)}
+.mdw-qty button{flex:0 0 56px;background:transparent;color:#e7c777;border:0;font-size:24px;cursor:pointer;touch-action:manipulation}
+.mdw-qty button:active{background:rgba(199,154,69,.25)}
+.mdw-qty span{flex:1;display:flex;align-items:center;justify-content:center;color:#f4e6c3;font-size:14px;letter-spacing:.06em}
+@media(max-width:700px){.shop-wine-card .shop-card-bottom{padding-bottom:4px}}
+.mdw-done{padding:22px 4px 40px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:14px}
+.mdw-done h3{font-size:clamp(1.7rem,7vw,2.3rem);line-height:1.1;margin:0}
+.mdw-done-note{margin:0;color:#cdb9a5;line-height:1.6}
+.mdw-done-note b{color:#e7c777}.mdw-done-note strong{color:#f6ead0}
+.mdw-done-list{border:1px solid rgba(217,178,95,.4);background:rgba(255,255,255,.03);padding:6px 14px}
+.mdw-done-row{display:grid;grid-template-columns:40px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid rgba(217,178,95,.2)}
+.mdw-done-row img{object-fit:contain;height:62px;width:40px}
+.mdw-done-row b{display:block;color:#f6ead0;font-weight:600;font-size:.92rem;line-height:1.3}
+.mdw-done-row small{color:#a99886}.mdw-done-row>span{color:#e7c777;font-weight:700;white-space:nowrap;font-size:.92rem}
+.mdw-done-total{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0 4px;color:#cdb9a5}
+.mdw-done-total b{color:#f0d58a;font-size:1.45rem}
+.mdw-done-fine{display:block;color:#8d7b6c;padding-bottom:10px}
+.mdw-done-actions{display:grid;gap:10px;margin-top:4px}
+.mdw-act{display:flex;align-items:center;justify-content:center;min-height:50px;padding:0 16px;border:1px solid #c79a45;background:transparent;color:#e7c777;font:700 13px/1 inherit;font-family:inherit;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;cursor:pointer;touch-action:manipulation}
+.mdw-act.zalo{background:linear-gradient(135deg,#d9b25f,#b8832f);color:#1a0d10;border-color:transparent}
+.mdw-act.ghost{border-color:rgba(217,178,95,.35);color:#cdb9a5}
+.mdw-done-msg{margin:0;color:#e7c777;font-size:.9rem}
+.mdw-combo{position:relative;min-width:0}
+.mdw-combo>input{width:100%;box-sizing:border-box;padding-right:28px}
+.mdw-chev{position:absolute;right:6px;top:50%;transform:translateY(-50%);color:#c79a45;pointer-events:none;font-size:14px}
+.mdw-dd{position:absolute;left:0;right:0;top:100%;z-index:60;margin:2px 0 0;padding:4px 0;list-style:none;max-height:230px;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#241116;border:1px solid #c79a45;box-shadow:0 14px 30px rgba(0,0,0,.6)}
+.mdw-dd li{padding:13px 14px;color:#f1e3c8;font-size:15px;line-height:1.25;cursor:pointer;border-bottom:1px solid rgba(217,178,95,.12);touch-action:manipulation}
+.mdw-dd li:active,.mdw-dd li:hover{background:rgba(199,154,69,.22)}
+.mdw-dd li.on{color:#f0d58a;font-weight:700}
+.mdw-dd li.none{color:#8d7b6c;cursor:default}
+.mdw-dd li small.mdw-old{display:block;margin-top:3px;color:#a99886;font-size:12px;font-weight:400}
+
+html,:root,body{scroll-behavior:auto!important}

@@ -1,4 +1,4 @@
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#120708;color:#e9ddd0;font:17px/1.75 Fraunces,Georgia,"Times New Roman",serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}html{scroll-behavior:auto}body{margin:0;background:#120708;color:#e9ddd0;font:17px/1.75 Fraunces,Georgia,"Times New Roman",serif;-webkit-font-smoothing:antialiased}
 a{color:#d4af5f}img{max-width:100%;height:auto}
 .bh{position:sticky;top:0;z-index:50;background:#120708f2;backdrop-filter:blur(10px);border-bottom:1px solid #2c1a1e}
 .bh-in{max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 24px;gap:16px}
