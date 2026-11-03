@@ -1,7 +1,7 @@
 <?php
 // MD Wines - xử lý đơn đặt hàng (không cần database)
 // Lưu đơn vào /orders (ngoài public_html) và gửi email cho chủ shop.
-const MDW_OWNER_EMAIL = 'minhngocphucqt@gmail.com';
+const MDW_OWNER_EMAIL = 'odermdwines@gmail.com';
 
 function mdw_products() {
     return [
