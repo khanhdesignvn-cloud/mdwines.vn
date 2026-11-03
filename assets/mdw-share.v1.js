@@ -1,0 +1,5 @@
+(function(){document.querySelectorAll('.share').forEach(function(b){var u=b.getAttribute('data-url')||location.href,t=b.getAttribute('data-title')||document.title;
+var n=b.querySelector('.sn');if(n&&navigator.share){n.hidden=false;n.addEventListener('click',function(){navigator.share({title:t,url:u}).catch(function(){})})}
+var c=b.querySelector('.sc');if(c)c.addEventListener('click',function(){function ok(){c.textContent='Đã sao chép ✓';setTimeout(function(){c.textContent='Sao chép link'},1800)}
+if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(ok,ok);else{var i=document.createElement('input');i.value=u;document.body.appendChild(i);i.select();try{document.execCommand('copy')}catch(e){}i.remove();ok()}});
+b.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[data-n]');if(a&&a.getAttribute('data-n')==='Zalo'&&/Mobi|Android/i.test(navigator.userAgent)&&navigator.share){e.preventDefault();navigator.share({title:t,url:u}).catch(function(){})}})})})();
