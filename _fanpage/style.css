@@ -1,0 +1,12 @@
+@import url('file:///tmp/fb/node_modules/@fontsource/fraunces/400.css');
+@import url('file:///tmp/fb/node_modules/@fontsource/fraunces/600.css');
+@import url('file:///tmp/fb/node_modules/@fontsource/fraunces/700.css');
+@import url('file:///tmp/fb/node_modules/@fontsource/fraunces/400-italic.css');
+@import url('file:///tmp/fb/node_modules/@fontsource/fraunces/600-italic.css');
+:root{--night:#120708;--wine:#2a0d12;--wine2:#4a1a22;--gold:#e8c66d;--gold2:#b8893a;--ivory:#f5f0e7}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1080px;height:1350px;background:var(--night);color:var(--ivory);font-family:Fraunces,Georgia,serif;overflow:hidden;position:relative}
+.gold{background:linear-gradient(180deg,#fff3c4,#e8c66d 50%,#b8893a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.logo{width:120px;height:120px;object-fit:contain}
+.chip{display:inline-block;border:1.5px solid #e8c66d99;padding:12px 26px;font-size:24px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.url{font-size:26px;letter-spacing:.3em;text-transform:uppercase;color:#e8c66dcc}
