@@ -7,7 +7,8 @@ RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 RewriteRule ^$ index.html [L]
-RewriteRule ^(barossa|cau-chuyen|qua-tang|ruou-vang|khoanh-khac|the-cellar-journal|tu-van-chon-vang|checkout)(/.*)?$ index.html [L]
+RewriteRule ^checkout/?$ checkout.html [L]
+RewriteRule ^(barossa|cau-chuyen|qua-tang|ruou-vang|khoanh-khac|the-cellar-journal|tu-van-chon-vang)(/.*)?$ index.html [L]
 RewriteRule ^ - [R=404,L]
 ErrorDocument 404 /404.html
 

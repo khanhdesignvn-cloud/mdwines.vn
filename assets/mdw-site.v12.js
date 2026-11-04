@@ -3,7 +3,7 @@ var SL=[{s:'/assets/media/hero-md-0.webp',a:'Sáu chai vang đỏ MD Wines cùng
         {s:'/assets/media/hero-md-1.webp',a:'Sáu chai vang đỏ MD Wines cùng túi quà đỏ vàng',mx:'72%'},
         {s:'/assets/media/hero-md-2.webp',a:'Kệ trưng bày rượu vang Úc MD Wines và hộp quà Tết',mx:'68%'},
         {s:'/assets/media/hero-md-3.webp',a:'Logo MD Wines trên tường xanh cùng các tranh vườn nho',mx:'55%'},
-        {logo:1,a:'MD Wines — Taste the exceptional'}];
+        {logo:1,a:'MD Wines — Taste of sophistication'}];
 var T=6000,timer=null,idx=0,root=null,sl=[],dots=[];
 function show(n){
   idx=(n+SL.length)%SL.length;
@@ -16,7 +16,7 @@ function build(bg){
   root=bg;sl=[];dots=[];
   SL.forEach(function(o,i){
     var d=document.createElement('div');d.className='hs';
-    if(o.logo){d.classList.add('lg');d.innerHTML='<div class="lgi"><img src="/assets/media/mdwines-gold-logo-new_03006611_hq.webp" alt="'+o.a+'" width="300" height="300"><span>MD WINES</span><em>Taste the exceptional</em></div>';bg.appendChild(d);sl.push(d);return}
+    if(o.logo){d.classList.add('lg');d.innerHTML='<div class="lgi"><img src="/assets/media/mdwines-gold-logo-new_03006611_hq.webp" alt="'+o.a+'" width="300" height="300"><span>MD WINES</span><em>Taste of sophistication</em></div>';bg.appendChild(d);sl.push(d);return}
     var im=new Image();im.src=o.s;im.alt=o.a;im.decoding='async';im.draggable=false;
     if(i>0)im.loading='lazy';else im.fetchPriority='high';
     im.style.setProperty('--mx',o.mx);d.style.setProperty('--mx',o.mx);d.appendChild(im);bg.appendChild(d);sl.push(d);
