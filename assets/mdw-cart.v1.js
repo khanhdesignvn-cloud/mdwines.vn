@@ -1,7 +1,7 @@
 (function(){
 var K='mdwines:order-cart',SPA=!!document.getElementById('root'),
 P={'md-cabernet-sauvignon-2022':['MD Cabernet Sauvignon 2022',550000,'cab'],'md-shiraz-2021':['MD Shiraz 2021',550000,'shi'],'md-cabernet-sauvignon-coonawarra-2021':['MD 90 Cabernet Sauvignon',900000,'90'],'md-the-quietude-04':['The Quietude 04',950000,'qui'],'md-77-shiraz-barossa-2020':['MD 77 Shiraz',1300000,'77'],'ghe-1575-return-2022':['GHE 1575 Return',1500000,'ghe']};
-function rd(){try{var a=JSON.parse(localStorage.getItem(K)||'[]');return Array.isArray(a)?a:[]}catch(e){return[]}}
+var CT={'md-the-quietude-04':1,'ghe-1575-return-2022':1};function rd(){try{var a=JSON.parse(localStorage.getItem(K)||'[]');return Array.isArray(a)?a.filter(function(x){return !CT[x.productId]}):[]}catch(e){return[]}}
 function wr(a){try{localStorage.setItem(K,JSON.stringify(a))}catch(e){}}
 function cnt(){return rd().reduce(function(s,x){return s+(+x.quantity||0)},0)}
 function fmt(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')+' ₫'}
@@ -41,7 +41,7 @@ function openP(){build();draw();ov.classList.add('on');document.body.style.overf
 var sp=Storage.prototype.setItem;Storage.prototype.setItem=function(k){var r=sp.apply(this,arguments);if(k===K)setTimeout(upd,0);return r};
 window.addEventListener('storage',function(e){if(e.key===K)upd()});
 setInterval(upd,1500);
-document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[data-pid]');if(!a)return;e.preventDefault();var id=a.dataset.pid,c=rd(),f=c.filter(function(x){return x.productId===id})[0];if(f)f.quantity+=1;else c.push({productId:id,quantity:1});wr(c)});
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[data-pid]');if(!a)return;e.preventDefault();var id=a.dataset.pid;if(CT[id]){if(window.mdwOpenConsult)window.mdwOpenConsult();return}var c=rd(),f=c.filter(function(x){return x.productId===id})[0];if(f)f.quantity+=1;else c.push({productId:id,quantity:1});wr(c)});
 function init(){mk();last=cnt();upd()}
 if(document.body)init();else document.addEventListener('DOMContentLoaded',init);
 })();
